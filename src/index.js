@@ -4,11 +4,11 @@ import { Router, Switch } from "react-router-dom";
 import {
   Provider
 } from 'react-redux'
-import './index.css';
+//  import './index.css';
 import store from './store';
 import history from './history';
 import App from './App';
-import './assets/css/App.css';
+//  import './assets/css/App.css';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
