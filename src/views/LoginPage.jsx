@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 // core components
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from '../config/config'
@@ -9,6 +10,7 @@ import { Button } from 'antd';
 import { Layout } from 'antd';
 import { Row, Col } from 'antd';
 import { Card } from 'antd';
+import { setUserDetails } from '../reducers/main'
 
 const { Meta } = Card;
 const {
@@ -35,8 +37,10 @@ class LoginPage extends React.Component {
       callbacks: {
         // This is called upon successful login // 'audio' // 'invisible' or 'compact' // ' bottomright' or 'inline' applies to invisible.
         signInSuccessWithAuthResult:(authResult)=> {
+          const user = authResult.user;
+          this.props.setUserDetails({},user.uid);
           this.props.history.push('/main')
-          console.log('SIGNED IN')
+          console.log(authResult)
           return true;
         },
       },
@@ -52,10 +56,17 @@ class LoginPage extends React.Component {
 
   render() {
     return (
-      <Layout>
-      <Row style={{height:"100vh"}} type="flex" justify="center" align="middle">
-      <Col xs ={12}>
-      <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
+      <Layout style={{height:"100vh"}}>
+      <Row type="flex" justify="center" align="middle">
+      <Col xs={20} md={12} lg={8}>
+      <Card
+      style={{marginTop:'100px'}}
+      title="Login to E-Hub"
+    >
+    <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
+
+    </Card>
+      
         </Col>
       </Row>
     </Layout>
@@ -70,12 +81,19 @@ LoginPage.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   classes: PropTypes.object.isRequired,
 };
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+     setUserDetails
+    },
+    dispatch
+  );
 
 const mapStateToProps = state => ({
   
 });
 
-export default connect(mapStateToProps)(LoginPage);
+export default connect(null,mapDispatchToProps)(LoginPage);
 
 
 // <Row style={{height:'1000px'}} type="flex" justify="space-around" align="middle">
