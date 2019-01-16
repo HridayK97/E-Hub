@@ -27,15 +27,26 @@ const db = firebase.firestore();
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
+
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount() {
     console.log('yo')
   }
 
+  logout(){
+    firebase.auth().signOut().then(() => {
+      // Sign-out successful.
+      this.props.history.push('/login')
+    }).catch(function(error) {
+      // An error happened.
+    });
+  }
+
   render() {
     return (
-      <Layout >
+      <Layout style={{height:"100vh"}}>
     <Header className="header">
       <div className="logo" />
       <Menu
@@ -44,9 +55,10 @@ class MainPage extends React.Component {
         defaultSelectedKeys={['2']}
         style={{ lineHeight: '64px' }}
       >
-        <Menu.Item key="1">nav 1</Menu.Item>
-        <Menu.Item key="2">nav 2</Menu.Item>
-        <Menu.Item key="3">nav 3</Menu.Item>
+        <Menu.Item key="1">Home</Menu.Item>
+        <Menu.Item key="2">Sell</Menu.Item>
+        <Menu.Item key="3">My Profile</Menu.Item>
+        <Menu.Item onClick={this.logout} style={{float:'right'}} key="4">Logout</Menu.Item>
       </Menu>
     </Header>
     <Content style={{ padding: '0 50px' }}>
@@ -89,7 +101,7 @@ class MainPage extends React.Component {
       </Layout>
     </Content>
     <Footer style={{ textAlign: 'center' }}>
-      Ant Design ©2018 Created by Ant UED
+      E-Hub Footer
     </Footer>
   </Layout>
 
