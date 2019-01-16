@@ -2,12 +2,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from "react-router";
 import { bindActionCreators } from "redux";
 // core components
 import firebase from '../../config/config'
 import { Button } from 'antd';
 import { Layout } from 'antd';
 import { Row, Col } from 'antd';
+import { Spin } from 'antd';
 import { Card } from 'antd';import { setUserDetails } from '../../reducers/main'
 import {
   Form, Input, Tooltip, Icon, Cascader, Select, Checkbox, AutoComplete,
@@ -43,10 +45,11 @@ class LoginForm extends React.Component {
     super(props);
 
     this.state={
-      name:'Hriday',
-      number:'122',
+      name:'',
+      number:'',
       nameStatus:'success',
       numberStatus:'success',
+      registerLoading:false,
     }
 
     this.handleSubmit= this.handleSubmit.bind(this);
@@ -80,12 +83,15 @@ class LoginForm extends React.Component {
     }
 
     handleSubmit(){
-      const { name,number }= this.state;
-      
-      console.log(name,number);
-
       if(this.validateFields()){
-        //  Proceed
+        this.setState({registerLoading:true})
+        const uid =this.props.uid;
+        const { name,number }= this.state;
+        db.collection('Users').doc(uid).set({uid,name,number})
+        .then(()=>{
+          console.log('SUCCESS ADDED')
+          this.props.history.push('/main')
+        })
       }
 
     }
@@ -99,7 +105,7 @@ class LoginForm extends React.Component {
 
   }
   render() {
-    const { nameStatus, numberStatus, name, number } = this.state;
+    const { nameStatus, numberStatus, name, number, registerLoading } = this.state;
 
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult } = this.state;
@@ -164,7 +170,11 @@ class LoginForm extends React.Component {
         </Form.Item>
       
         <Form.Item {...tailFormItemLayout}>
+        {registerLoading?
+          <Spin size="large" />
+          :
           <Button onClick={this.handleSubmit} type="primary" htmlType="submit">Register</Button>
+        }
         </Form.Item>
       </Form>
     );
@@ -184,10 +194,11 @@ const mapDispatchToProps = dispatch =>
   );
 
 const mapStateToProps = state => ({
+  uid:state.main.uid,
   
 });
 const WrappedForm = Form.create({ name: 'customized_form_controls' })(LoginForm);
 
-export default connect(null,mapDispatchToProps)(WrappedForm);
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(WrappedForm));
 
 
