@@ -2,6 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from "react-router";
+import { bindActionCreators } from "redux";
 // core components
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from '../config/config'
@@ -9,9 +11,11 @@ import { Button } from 'antd';
 import { Layout } from 'antd';
 import { Row, Col } from 'antd';
 import { Card } from 'antd';
+import { Spin, Popconfirm } from 'antd';
 import {
   Menu, Breadcrumb, Icon,
-} from 'antd';
+} from 'antd'
+import { setUserDetails } from './../reducers/main';
 
 const { SubMenu } = Menu;
 const {
@@ -27,12 +31,37 @@ const db = firebase.firestore();
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
-
+    this.state={
+      mainLoading:false,
+    }
     this.logout = this.logout.bind(this);
   }
 
   componentDidMount() {
-    console.log('yo')
+    this.setState({mainLoading:true})
+    firebase.auth().onAuthStateChanged((user)=> {
+      if (user) {
+        db.collection('Users').doc(user.uid).get()
+          .then(doc=>{
+            if(doc.exists){
+              this.saveUserDetailsAndProceed(doc.data(),doc.id);
+              this.setState({mainLoading:false})
+          }
+            else {
+              this.setState({mainLoading:false})
+              this.props.history.push('/login');
+            }
+          })
+      } else {
+        this.setState({mainLoading:false})
+        this.props.history.push('/login')
+        // No user is signed in.
+      }
+    });
+  }
+  saveUserDetailsAndProceed(userDetails,uid){
+    this.props.setUserDetails(userDetails,uid);
+    this.props.history.push('/main')
   }
 
   logout(){
@@ -45,7 +74,17 @@ class MainPage extends React.Component {
   }
 
   render() {
+
+    const { mainLoading } = this.state;
     return (
+      <React.Fragment>
+      {mainLoading?
+      <Layout style={{backgroundColor:'#ffffff'}}>
+      <Row style={{minHeight:'100vh'}} type="flex" justify="center" align="middle">
+      <Spin size="large" />
+      </Row>
+      </Layout>
+      :
       <Layout style={{height:"100vh"}}>
     <Header className="header">
       <div className="logo" />
@@ -58,7 +97,9 @@ class MainPage extends React.Component {
         <Menu.Item key="1">Home</Menu.Item>
         <Menu.Item key="2">Sell</Menu.Item>
         <Menu.Item key="3">My Profile</Menu.Item>
+        
         <Menu.Item onClick={this.logout} style={{float:'right'}} key="4">Logout</Menu.Item>
+      
       </Menu>
     </Header>
     <Content style={{ padding: '0 50px' }}>
@@ -105,7 +146,8 @@ class MainPage extends React.Component {
     </Footer>
   </Layout>
 
-      
+    }
+    </React.Fragment>
       
     );
   }
@@ -115,9 +157,16 @@ MainPage.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   classes: PropTypes.object.isRequired,
 };
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+     setUserDetails
+    },
+    dispatch
+  );
 
 const mapStateToProps = state => ({
   
 });
 
-export default connect(mapStateToProps)(MainPage);
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(MainPage));

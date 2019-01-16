@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from '../../config/config'
 import { Button } from 'antd';
-import { Layout } from 'antd';
+import { Layout,Spin } from 'antd';
 import { Row, Col } from 'antd';
 import { Card } from 'antd';
 import { setUserDetails } from '../../reducers/main'
@@ -34,6 +34,7 @@ class LoginPage extends React.Component {
 
     this.state={
       showLoginForm:false,
+      mainLoading:false,
     }
 
     this.uiConfig = {
@@ -49,11 +50,21 @@ class LoginPage extends React.Component {
       callbacks: {
         // This is called upon successful login // 'audio' // 'invisible' or 'compact' // ' bottomright' or 'inline' applies to invisible.
         signInSuccessWithAuthResult:(authResult)=> {
+          this.setState({webuiLoading:true})
           const user = authResult.user;
-          this.setState({showLoginForm:true})
+          db.collection('Users').doc(user.uid).get()
+          .then(doc=>{
+            if(doc.exists)
+              this.saveUserDetailsAndProceed(doc.data(),doc.id);
+            else{
+              this.props.setUserDetails({},user.uid);
+              this.setState({showLoginForm:true,webuiLoading:false})
+            }
+          })
+          //  this.setState({showLoginForm:true})
           //  this.saveUserDetailsAndProceed(user);
           console.log(authResult)
-          return true;
+          return false;
         },
       },
     };
@@ -65,29 +76,47 @@ class LoginPage extends React.Component {
   
   
   componentDidMount() {
-    const user = firebase.auth().currentUser;
-    if(user){
-      this.saveUserDetailsAndProceed(user);
-    }
-    else{
-
-    }
+    this.setState({mainLoading:true})
+   firebase.auth().onAuthStateChanged((user)=> {
+      if (user) {
+        db.collection('Users').doc(user.uid).get()
+          .then(doc=>{
+            if(doc.exists){
+              this.saveUserDetailsAndProceed(doc.data(),doc.id);
+              this.setState({mainLoading:false})
+          }
+            else {
+              this.setState({mainLoading:false})
+            }
+          })
+      } else {
+        this.setState({mainLoading:false})
+        // No user is signed in.
+      }
+    });
 
   }
 
-  saveUserDetailsAndProceed(user){
-    this.props.setUserDetails({},user.uid);
+  saveUserDetailsAndProceed(userDetails,uid){
+    this.props.setUserDetails(userDetails,uid);
     this.props.history.push('/main')
   }
 
   render() {
-
-    const { showLoginForm } = this.state;
+    const { showLoginForm, mainLoading } = this.state;
     return (
+      <React.Fragment>
+      {mainLoading?
+        <Layout style={{backgroundColor:'#ffffff'}}>
+        <Row style={{minHeight:'100vh'}} type="flex" justify="center" align="middle">
+        <Spin size="large" />
+        </Row>
+        </Layout>
+        :
       <Layout style={{minHeight:'100vh',backgroundColor:'#ffffff'}}>
       <Row type="flex" justify="center" align="middle">
       
-      {true?
+      {showLoginForm?
         <Col xs={23} md={14} lg={10}>
         
     <Row style={{marginTop:'100px'}}>
@@ -105,8 +134,9 @@ class LoginPage extends React.Component {
       style={{marginTop:'100px'}}
       title="Login to E-Hub"
     >
-    
+    {this.state.webuiLoading?<Spin/>:
     <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
+    }
 
     </Card>
     </Col>
@@ -116,7 +146,8 @@ class LoginPage extends React.Component {
         
       </Row>
     </Layout>
-
+    }
+    </React.Fragment>
       
       
     );
@@ -136,10 +167,10 @@ const mapDispatchToProps = dispatch =>
   );
 
 const mapStateToProps = state => ({
-  
+  uid:state.main.uid,
 });
 
-export default connect(null,mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps,mapDispatchToProps)(LoginPage);
 
 
 // <Row style={{height:'1000px'}} type="flex" justify="space-around" align="middle">
