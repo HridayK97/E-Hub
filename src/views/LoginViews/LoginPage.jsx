@@ -5,17 +5,24 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 // core components
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import firebase from '../config/config'
+import firebase from '../../config/config'
 import { Button } from 'antd';
 import { Layout } from 'antd';
 import { Row, Col } from 'antd';
 import { Card } from 'antd';
-import { setUserDetails } from '../reducers/main'
+import { setUserDetails } from '../../reducers/main'
+import LoginForm from '../..//views/LoginViews/LoginForm.jsx';
 
 const { Meta } = Card;
 const {
   Header, Footer, Sider, Content,
 } = Layout;
+const gridStyle = {
+  width: '100%',
+  textAlign: 'left',
+};
+
+
 
 //  Initalize firestore reference
 const db = firebase.firestore();
@@ -24,6 +31,11 @@ const db = firebase.firestore();
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state={
+      showLoginForm:false,
+    }
+
     this.uiConfig = {
       // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
       signInFlow: 'popup',
@@ -38,36 +50,70 @@ class LoginPage extends React.Component {
         // This is called upon successful login // 'audio' // 'invisible' or 'compact' // ' bottomright' or 'inline' applies to invisible.
         signInSuccessWithAuthResult:(authResult)=> {
           const user = authResult.user;
-          this.props.setUserDetails({},user.uid);
-          this.props.history.push('/main')
+          this.setState({showLoginForm:true})
+          //  this.saveUserDetailsAndProceed(user);
           console.log(authResult)
           return true;
         },
       },
     };
+
+    this.saveUserDetailsAndProceed = this.saveUserDetailsAndProceed.bind(this);
   }
 
   
   
-
+  
   componentDidMount() {
-    console.log('HELLo')
+    const user = firebase.auth().currentUser;
+    if(user){
+      this.saveUserDetailsAndProceed(user);
+    }
+    else{
+
+    }
+
+  }
+
+  saveUserDetailsAndProceed(user){
+    this.props.setUserDetails({},user.uid);
+    this.props.history.push('/main')
   }
 
   render() {
+
+    const { showLoginForm } = this.state;
     return (
-      <Layout style={{height:"100vh"}}>
+      <Layout style={{minHeight:'100vh',backgroundColor:'#ffffff'}}>
       <Row type="flex" justify="center" align="middle">
-      <Col xs={20} md={12} lg={8}>
-      <Card
+      
+      {true?
+        <Col xs={23} md={14} lg={10}>
+        
+    <Row style={{marginTop:'100px'}}>
+    <Col xs={24}>
+    <h1 style={{textAlign: 'center'}} >Welcome! Complete your Sign Up.</h1>
+    </Col>
+    <Col xs={24}>
+        <LoginForm/>
+        </Col>
+      </Row>
+        </Col>
+    :
+    <Col xs={20} md={12} lg={8}>
+    <Card
       style={{marginTop:'100px'}}
       title="Login to E-Hub"
     >
+    
     <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
 
     </Card>
+    </Col>
+    
+      }
       
-        </Col>
+        
       </Row>
     </Layout>
 

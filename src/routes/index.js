@@ -1,4 +1,4 @@
-import LoginPage from '../views/LoginPage.jsx';
+import LoginPage from '../views/LoginViews/LoginPage.jsx';
 import MainPage from '../views/MainPage.jsx';
 
 var indexRoutes = [
