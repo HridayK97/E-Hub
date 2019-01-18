@@ -1,16 +1,16 @@
+/* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
-import { Switch, Route } from "react-router-dom";
-import indexRoutes from './routes/index'
-import logo from './logo.svg';
-import { Button } from 'antd';
-
+import { Switch, Route } from 'react-router-dom';
+import indexRoutes from './routes/index';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-      <Switch>
-        {indexRoutes.map(route=>{return (<Route path={route.path} component={route.component} />)})}
+        <Switch>
+          {indexRoutes.map(route => (
+            <Route path={route.path} component={route.component} />
+          ))}
         </Switch>
       </div>
     );
