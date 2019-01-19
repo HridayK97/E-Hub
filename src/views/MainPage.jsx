@@ -86,8 +86,12 @@ class MainPage extends React.Component {
             <Menu.Item key="1">
               <Link to="/main/market">Home</Link>
             </Menu.Item>
-            <Menu.Item key="2"><Link to="/main/sell">Sell</Link></Menu.Item>
-            <Menu.Item key="3"><Link to="/main/account">My Account</Link></Menu.Item>
+            <Menu.Item key="2">
+              <Link to="/main/sell">Sell</Link>
+            </Menu.Item>
+            <Menu.Item key="3">
+              <Link to="/main/account">My Account</Link>
+            </Menu.Item>
 
             <Menu.Item onClick={this.logout} style={{ float: 'right' }} key="4">
               Logout
@@ -96,10 +100,10 @@ class MainPage extends React.Component {
         </Header>
         <Content style={{ padding: '0 50px' }}>
           <Switch>
-          {mainRoutes.map((route, key) => {
-            if (route.redirect) return <Redirect from={route.path} to={route.pathTo} key={key} />;
-            return <Route path={route.path} component={route.component} />;
-          })}
+            {mainRoutes.map((route, key) => {
+              if (route.redirect) return <Redirect from={route.path} to={route.pathTo} key={key} />;
+              return <Route path={route.path} component={route.component} />;
+            })}
           </Switch>
         </Content>
         <Footer style={{ textAlign: 'center' }}>E-Hub Footer</Footer>
@@ -118,11 +122,15 @@ class MainPage extends React.Component {
             defaultSelectedKeys={['1']}
             style={{ lineHeight: '64px' }}
           >
-          <Menu.Item key="1">
-          <Link to="/main/market">Home</Link>
-        </Menu.Item>
-        <Menu.Item key="2"><Link to="/main/sell">Sell</Link></Menu.Item>
-        <Menu.Item key="3"><Link to="/main/account">My Account</Link></Menu.Item>
+            <Menu.Item key="1">
+              <Link to="/main/market">Home</Link>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <Link to="/main/sell">Sell</Link>
+            </Menu.Item>
+            <Menu.Item key="3">
+              <Link to="/main/account">My Account</Link>
+            </Menu.Item>
 
             <Menu.Item onClick={this.logout} style={{ float: 'right' }} key="4">
               Logout
