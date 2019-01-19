@@ -7,7 +7,7 @@ import { Router, Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { Layout, Row, Spin, Menu, Breadcrumb, Icon } from 'antd';
 import Responsive from 'react-responsive';
-import { setUserDetails } from '../../reducers/main';
+import { setUserDetails, setSelectedTab } from '../../reducers/main';
 import firebase from '../../config/config';
 
 const Mobile = props => <Responsive {...props} maxWidth={767} />;
@@ -28,6 +28,7 @@ class MarketView extends React.Component {
   }
 
   componentDidMount() {
+    this.props.setSelectedTab(['2']);
     this.setState({ mainLoading: true });
   }
 
@@ -181,7 +182,8 @@ MarketView.propTypes = {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      setUserDetails
+      setUserDetails,
+      setSelectedTab
     },
     dispatch
   );

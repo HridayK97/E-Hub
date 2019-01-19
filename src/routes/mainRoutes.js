@@ -4,9 +4,9 @@ import AccountView from '../views/AccountViews/AccountView.jsx';
 import MainPage from '../views/MainPage.jsx';
 
 const mainRoutes = [
-  { path: '/main/market', name: 'Market', component: MarketView },
-  { path: '/main/sell', name: 'Sell', component: SellView },
-  { path: '/main/account', name: 'MyAccount', component: AccountView },
+  { path: '/main/market', key: '1', name: 'Market', component: MarketView },
+  { path: '/main/sell', key: '2', name: 'Sell', component: SellView },
+  { path: '/main/account', key: '3', name: 'MyAccount', component: AccountView },
   {
     redirect: true,
     path: '/main',

@@ -25,7 +25,8 @@ class MainPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mainLoading: false
+      mainLoading: false,
+      selectedTab: ['1']
     };
     this.logout = this.logout.bind(this);
   }
@@ -40,6 +41,7 @@ class MainPage extends React.Component {
           .then(doc => {
             if (doc.exists) {
               this.saveUserDetailsAndProceed(doc.data(), doc.id);
+              this.setDefaultSelectedKeys();
               this.setState({ mainLoading: false });
             } else {
               this.setState({ mainLoading: false });
@@ -54,9 +56,13 @@ class MainPage extends React.Component {
     });
   }
 
+  setDefaultSelectedKeys() {
+    console.log(this.props.location.pathname);
+  }
+
   saveUserDetailsAndProceed(userDetails, uid) {
     this.props.setUserDetails(userDetails, uid);
-    this.props.history.push('/main');
+    //  this.props.history.push('/main');
   }
 
   logout() {
@@ -81,6 +87,7 @@ class MainPage extends React.Component {
             theme="dark"
             mode="horizontal"
             defaultSelectedKeys={['1']}
+            selectedKeys={this.props.selectedTab}
             style={{ lineHeight: '64px' }}
           >
             <Menu.Item key="1">
@@ -102,6 +109,7 @@ class MainPage extends React.Component {
           <Switch>
             {mainRoutes.map((route, key) => {
               if (route.redirect) return <Redirect from={route.path} to={route.pathTo} key={key} />;
+
               return <Route path={route.path} component={route.component} />;
             })}
           </Switch>
@@ -120,6 +128,7 @@ class MainPage extends React.Component {
             theme="dark"
             mode="horizontal"
             defaultSelectedKeys={['1']}
+            selectedKeys={this.props.selectedTab}
             style={{ lineHeight: '64px' }}
           >
             <Menu.Item key="1">
@@ -183,7 +192,9 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+  selectedTab: state.main.selectedTab
+});
 
 export default withRouter(
   connect(
