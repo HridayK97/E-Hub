@@ -80,7 +80,7 @@ class MainPage extends React.Component {
 
   defaultContent() {
     return (
-      <Layout style={{ height: '100vh' }}>
+      <Layout style={{ minHeight: '100vh' }}>
         <Header className="header">
           <div className="logo" />
           <Menu
@@ -121,7 +121,7 @@ class MainPage extends React.Component {
 
   mobileContent() {
     return (
-      <Layout style={{ height: '100vh' }}>
+      <Layout style={{ minHeight: '100vh' }}>
         <Header style={{ padding: '0px' }} className="header">
           <div className="logo" />
           <Menu

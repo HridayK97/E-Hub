@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Router, Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { Layout, Row, Col, Spin, Menu, Breadcrumb, Icon, Card, Avatar, Select } from 'antd';
+import { Layout, Row, Col, Spin, Menu, Breadcrumb, Icon, Card, Avatar, Select,Pagination  } from 'antd';
 import Responsive from 'react-responsive';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
 import firebase from '../../config/config';
@@ -26,6 +26,7 @@ class MarketView extends React.Component {
     super(props);
     this.state = {
       mainLoading: false,
+      categories: ['All', 'Category 1', 'Category 2', 'Category 3', 'Category 4'],
       subcategories: ['Sub 1', 'Sub 2', 'Sub 3', 'Sub 4', 'Sub 5']
     };
     this.handleChange = this.handleChange.bind(this);
@@ -52,10 +53,14 @@ class MarketView extends React.Component {
           <Sider width={200} style={{ background: '#fff' }}>
             <Menu
               mode="inline"
-              defaultSelectedKeys={['1']}
+              defaultSelectedKeys={['0']}
               defaultOpenKeys={['sub1']}
               style={{ height: '100%' }}
             >
+              <Menu.Item key="0">
+                <Icon type="pie-chart" />
+                <span>All</span>
+              </Menu.Item>
               <Menu.Item key="1">
                 <Icon type="pie-chart" />
                 <span>Category 1</span>
@@ -74,36 +79,58 @@ class MarketView extends React.Component {
             <Row style={{ padding: '10px 0px' }}>
               <h2>Selected Category</h2>
               <Col xs={24} md={8}>
-              <Select
-                mode="multiple"
-                style={{ width: '100%' }}
-                placeholder="Filter Sub-Categories"
-                defaultValue={[]}
-                onChange={this.handleChange}
-              >
-                {this.state.subcategories.map((subcat, i) => (
-                  <Option key={i}>{subcat}</Option>
-                ))}
-              </Select>
+                <Select
+                  mode="multiple"
+                  style={{ width: '100%' }}
+                  placeholder="Filter Sub-Categories"
+                  defaultValue={[]}
+                  onChange={this.handleChange}
+                >
+                  {this.state.subcategories.map((subcat, i) => (
+                    <Option key={i}>{subcat}</Option>
+                  ))}
+                </Select>
               </Col>
             </Row>
-
-            <Card
-              style={{ width: 300 }}
-              cover={
-                <img
-                  alt="example"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                />
-              }
-              actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}
-            >
-              <Meta
-                
-                title="Item Name"
-                description="Price"
-              />
-            </Card>
+            <Row type="flex" justify="center" align="middle">
+            <Pagination defaultCurrent={1} total={50} />
+            </Row>
+            <Row>
+              {[0, 1, 2, 3, 4, 5, 6].map(key => (
+                <Col style={{padding:'10px 0'}} xs={8}>
+                  <Card
+                    style={{ width: 300 }}
+                    cover={
+                      <div style={{ height: 150, width: 300 }}>
+                        <img
+                          style={{
+                            padding: 5,
+                            height: '100%',
+                            width: '100%',
+                            objectFit: 'contain'
+                          }}
+                          alt="example"
+                          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                        />
+                      </div>
+                    }
+                  >
+                    <Meta
+                      title="Item Name"
+                      description={
+                        <React.Fragment>
+                          <p style={{ float: 'right' }}>Buy: Rs 100</p>
+                          <p style={{ float: 'left' }}>Rent: Rs 100</p>
+                        </React.Fragment>
+                      }
+                    />
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+            <Row type="flex" justify="center" align="middle">
+            <Pagination defaultCurrent={1} total={50} />
+            </Row>
           </Content>
         </Layout>
       </React.Fragment>
@@ -118,29 +145,71 @@ class MarketView extends React.Component {
           <Breadcrumb.Item>List</Breadcrumb.Item>
           <Breadcrumb.Item>App</Breadcrumb.Item>
         </Breadcrumb>
-        <Layout style={{ padding: '24px 0', background: '#fff' }}>
-          <Sider width={200} style={{ background: '#fff' }}>
-            <Menu
-              mode="inline"
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
-              style={{ height: '100%' }}
-            >
-              <Menu.Item key="1">
-                <Icon type="pie-chart" />
-                <span>Option 1</span>
-              </Menu.Item>
-              <Menu.Item key="2">
-                <Icon type="desktop" />
-                <span>Option 2</span>
-              </Menu.Item>
-              <Menu.Item key="3">
-                <Icon type="inbox" />
-                <span>Option 3</span>
-              </Menu.Item>
-            </Menu>
-          </Sider>
-          <Content style={{ padding: '0 24px', minHeight: 280 }}>Content</Content>
+        <Layout style={{ padding: '0 0', background: '#fff' }}>
+          <Select
+            style={{ width: '100%' }}
+            placeholder="Filter Sub-Categories"
+            defaultValue={['All']}
+            onChange={this.handleChange}
+          >
+            {this.state.categories.map((cat, i) => (
+              <Option key={i}>{cat}</Option>
+            ))}
+          </Select>
+          <Content style={{ padding: '0 24px', minHeight: 280 }}>
+            <Row style={{ padding: '10px 0px' }}>
+              <h2>Selected Category</h2>
+              <Col xs={24} md={8}>
+                <Select
+                  mode="multiple"
+                  style={{ width: '100%' }}
+                  placeholder="Filter Sub-Categories"
+                  defaultValue={[]}
+                  onChange={this.handleChange}
+                >
+                  {this.state.subcategories.map((subcat, i) => (
+                    <Option key={i}>{subcat}</Option>
+                  ))}
+                </Select>
+              </Col>
+            </Row>
+            <Row>
+              {[0, 1, 2, 3, 4, 5, 6].map(key => (
+                <Col xs={24}>
+                  <Card
+                    style={{ width: '100%' }}
+                    cover={
+                      <div style={{ height: 150, width: '100%' }}>
+                        <img
+                          style={{
+                            padding: 5,
+                            height: '100%',
+                            width: '100%',
+                            objectFit: 'contain'
+                          }}
+                          alt="example"
+                          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                        />
+                      </div>
+                    }
+                  >
+                    <Meta
+                      title="Item Name"
+                      description={
+                        <React.Fragment>
+                          <p style={{ float: 'right' }}>Buy: Rs 100</p>
+                          <p style={{ float: 'left' }}>Rent: Rs 100</p>
+                        </React.Fragment>
+                      }
+                    />
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+            <Row type="flex" justify="center" align="middle">
+            <Pagination defaultCurrent={1} total={50} />
+            </Row>
+          </Content>
         </Layout>
       </React.Fragment>
     );
