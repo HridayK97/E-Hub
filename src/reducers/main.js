@@ -1,12 +1,14 @@
 export const SET_USER_DETAILS = 'main/SET_USER_DETAILS';
 export const SET_ACTIVE_ROLE = 'main/SET_ACTIVE_ROLE';
 export const SET_SYSTEM_DETAILS = 'main/SET_SYSTEM_DETAILS';
+export const SET_SELECTED_TAB = 'main/SET_SELECTED_TAB';
 
 const initialState = {
   uid: '',
   userDetails: {},
   activeRole: '', // sales, finance, admin, or ops
-  systemDetails: {}
+  systemDetails: {},
+  selectedTab: ['1']
 };
 
 export default (state = initialState, action) => {
@@ -27,6 +29,11 @@ export default (state = initialState, action) => {
         ...state,
         systemDetails: action.systemDetails
       };
+    case SET_SELECTED_TAB:
+      return {
+        ...state,
+        selectedTab: action.selectedTab
+      }
     default:
       return state;
   }
@@ -37,6 +44,13 @@ export const setUserDetails = (userDetails, uid) => dispatch => {
     type: SET_USER_DETAILS,
     userDetails,
     uid
+  });
+};
+
+export const setSelectedTab = selectedTab => dispatch => {
+  dispatch({
+    type: SET_SELECTED_TAB,
+    selectedTab
   });
 };
 
