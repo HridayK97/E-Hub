@@ -5,7 +5,19 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Router, Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { Layout, Row, Col, Spin, Menu, Breadcrumb, Icon, Card, Avatar, Select,Pagination  } from 'antd';
+import {
+  Layout,
+  Row,
+  Col,
+  Spin,
+  Menu,
+  Breadcrumb,
+  Icon,
+  Card,
+  Avatar,
+  Select,
+  Pagination
+} from 'antd';
 import Responsive from 'react-responsive';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
 import firebase from '../../config/config';
@@ -30,6 +42,7 @@ class MarketView extends React.Component {
       subcategories: ['Sub 1', 'Sub 2', 'Sub 3', 'Sub 4', 'Sub 5']
     };
     this.handleChange = this.handleChange.bind(this);
+    this.onClickItem = this.onClickItem.bind(this);
   }
 
   componentDidMount() {
@@ -39,6 +52,11 @@ class MarketView extends React.Component {
 
   handleChange(value) {
     console.log(`selected ${value}`);
+  }
+
+  onClickItem() {
+    const itemId = 'itemID';
+    this.props.history.push(`/main/market/${itemId}`);
   }
 
   defaultContent() {
@@ -93,12 +111,13 @@ class MarketView extends React.Component {
               </Col>
             </Row>
             <Row type="flex" justify="center" align="middle">
-            <Pagination defaultCurrent={1} total={50} />
+              <Pagination defaultCurrent={1} total={50} />
             </Row>
             <Row>
               {[0, 1, 2, 3, 4, 5, 6].map(key => (
-                <Col style={{padding:'10px 0'}} xs={8}>
+                <Col style={{ padding: '10px 0' }} xs={8}>
                   <Card
+                    onClick={this.onClickItem}
                     style={{ width: 300 }}
                     cover={
                       <div style={{ height: 150, width: 300 }}>
@@ -129,7 +148,7 @@ class MarketView extends React.Component {
               ))}
             </Row>
             <Row type="flex" justify="center" align="middle">
-            <Pagination defaultCurrent={1} total={50} />
+              <Pagination defaultCurrent={1} total={50} />
             </Row>
           </Content>
         </Layout>
@@ -177,6 +196,7 @@ class MarketView extends React.Component {
               {[0, 1, 2, 3, 4, 5, 6].map(key => (
                 <Col xs={24}>
                   <Card
+                    onClick={this.onClickItem}
                     style={{ width: '100%' }}
                     cover={
                       <div style={{ height: 150, width: '100%' }}>
@@ -207,7 +227,7 @@ class MarketView extends React.Component {
               ))}
             </Row>
             <Row type="flex" justify="center" align="middle">
-            <Pagination defaultCurrent={1} total={50} />
+              <Pagination defaultCurrent={1} total={50} />
             </Row>
           </Content>
         </Layout>
