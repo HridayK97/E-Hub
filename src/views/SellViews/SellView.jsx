@@ -316,7 +316,9 @@ class MarketView extends React.Component {
           <Breadcrumb.Item>App</Breadcrumb.Item>
         </Breadcrumb>
         <Layout style={{ padding: '24px 0', background: '#fff' }}>
-          <Content style={{ padding: '0 24px', minHeight: 280 }}>Sell Page</Content>
+          <Content style={{ padding: '0 24px', minHeight: 280 }}>
+          
+          </Content>
         </Layout>
       </React.Fragment>
     );
@@ -326,8 +328,7 @@ class MarketView extends React.Component {
     const { mainLoading } = this.state;
     return (
       <React.Fragment>
-        <Mobile>{this.mobileContent()}</Mobile>
-        <Default>{this.defaultContent()}</Default>
+        {this.defaultContent()}
       </React.Fragment>
     );
   }
