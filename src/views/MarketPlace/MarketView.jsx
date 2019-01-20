@@ -96,7 +96,7 @@ class MarketView extends React.Component {
           <Content style={{ padding: '0 24px', minHeight: 280 }}>
             <Row style={{ padding: '10px 0px' }}>
               <h2>Selected Category</h2>
-              <Col xs={24} md={8}>
+              <Col xs={24} sm={16} md={8}>
                 <Select
                   mode="multiple"
                   style={{ width: '100%' }}
@@ -194,7 +194,7 @@ class MarketView extends React.Component {
             </Row>
             <Row>
               {[0, 1, 2, 3, 4, 5, 6].map(key => (
-                <Col xs={24}>
+                <Col style={{ padding: '10px 0px' }} xs={24}>
                   <Card
                     onClick={this.onClickItem}
                     style={{ width: '100%' }}
