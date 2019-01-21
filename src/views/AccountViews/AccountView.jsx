@@ -24,23 +24,76 @@ class MarketView extends React.Component {
     super(props);
     this.state = {
       mainLoading: false,
-      isEditing:false
+      submitLoading: false,
+      isEditing: false,
+      nameStatus: 'success',
+      numberStatus: 'success'
     };
     this.handleEditButton = this.handleEditButton.bind(this);
+    this.onChangeName = this.onChangeName.bind(this);
+    this.onChangeNumber = this.onChangeNumber.bind(this);
   }
 
   componentDidMount() {
     this.props.setSelectedTab(['3']);
+    this.getAccountDetails();
     this.setState({ mainLoading: true });
   }
 
-  handleEditButton(){
-    const {isEditing} = this.state;
-    this.setState({isEditing:!isEditing});
+  getAccountDetails(){
+    const { uid } = this.props;
+
+    console.log(uid);
+    db.collection('Users').doc(uid).get()
+    .then(doc=>{
+      const { name, number } = doc.data();
+      this.setState({name,number});
+    })
+  }
+
+  onChangeName(ev) {
+    this.setState({ name: ev.target.value });
+  }
+
+  onChangeNumber(ev) {
+    this.setState({ number: ev.target.value });
+  }
+
+  validateFields() {
+    const { name, number } = this.state;
+    let valid = true;
+    if (name.length < 2) {
+      valid = false;
+      this.setState({ nameStatus: 'error' });
+    } else if (number.length !== 10) {
+      valid = false;
+      this.setState({ numberStatus: 'error' });
+    }
+
+    return valid;
+  }
+
+  handleEditButton() {
+    const { isEditing } = this.state;
+    if (isEditing) {
+      if (this.validateFields()) {
+        this.setState({ submitLoading: true });
+        const { uid } = this.props;
+        const { name, number } = this.state;
+        db.collection('Users')
+          .doc(uid)
+          .set({ name, number }, { merge: true })
+          .then(() => {
+            this.setState({ submitLoading: false, isEditing: !isEditing });
+          });
+      }
+    } else {
+      this.setState({ isEditing: !isEditing });
+    }
   }
 
   defaultContent() {
-    const { nameStatus, numberStatus, name, number, registerLoading } = this.state;
+    const { nameStatus, numberStatus, name, number, submitLoading } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -79,8 +132,11 @@ class MarketView extends React.Component {
                     validateStatus={nameStatus}
                     help={nameStatus !== 'success' ? 'Name should be at least two characters.' : ''}
                   >
-                    <Input disabled={!this.state.isEditing}
-                    value={'Philip Mathew'} onChange={this.onChangeName} />
+                    <Input
+                      disabled={!this.state.isEditing}
+                      value={name}
+                      onChange={this.onChangeName}
+                    />
                   </Form.Item>
                   <Form.Item
                     required
@@ -92,17 +148,17 @@ class MarketView extends React.Component {
                     <Input
                       disabled={!this.state.isEditing}
                       type="number"
-                      value="9900067553"
+                      value={number}
                       onChange={this.onChangeNumber}
                     />
                   </Form.Item>
 
                   <Form.Item {...tailFormItemLayout}>
-                    {registerLoading ? (
+                    {submitLoading ? (
                       <Spin size="large" />
                     ) : (
                       <Button onClick={this.handleEditButton} type="primary" htmlType="submit">
-                        {this.state.isEditing?'Save':'Edit'}
+                        {this.state.isEditing ? 'Save' : 'Edit'}
                       </Button>
                     )}
                   </Form.Item>
@@ -154,7 +210,10 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+  uid: state.main.uid,
+  userDetails:state.main.userDetails
+});
 
 export default withRouter(
   connect(
