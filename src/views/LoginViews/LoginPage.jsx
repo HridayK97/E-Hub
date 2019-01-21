@@ -20,7 +20,7 @@ class LoginPage extends React.Component {
     this.state = {
       showLoginForm: false,
       mainLoading: false,
-      email:'',
+      email: ''
     };
 
     this.uiConfig = {
@@ -46,7 +46,7 @@ class LoginPage extends React.Component {
               if (doc.exists) this.saveUserDetailsAndProceed(doc.data(), doc.id);
               else {
                 this.props.setUserDetails({}, user.uid);
-                this.setState({ showLoginForm: true, webuiLoading: false, email:user.email });
+                this.setState({ showLoginForm: true, webuiLoading: false, email: user.email });
               }
             });
           //  this.setState({showLoginForm:true})
