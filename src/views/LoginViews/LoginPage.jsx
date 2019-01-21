@@ -19,7 +19,8 @@ class LoginPage extends React.Component {
 
     this.state = {
       showLoginForm: false,
-      mainLoading: false
+      mainLoading: false,
+      email:'',
     };
 
     this.uiConfig = {
@@ -37,6 +38,7 @@ class LoginPage extends React.Component {
         signInSuccessWithAuthResult: authResult => {
           this.setState({ webuiLoading: true });
           const { user } = authResult;
+          console.log(user);
           db.collection('Users')
             .doc(user.uid)
             .get()
@@ -44,7 +46,7 @@ class LoginPage extends React.Component {
               if (doc.exists) this.saveUserDetailsAndProceed(doc.data(), doc.id);
               else {
                 this.props.setUserDetails({}, user.uid);
-                this.setState({ showLoginForm: true, webuiLoading: false });
+                this.setState({ showLoginForm: true, webuiLoading: false, email:user.email });
               }
             });
           //  this.setState({showLoginForm:true})
@@ -86,7 +88,7 @@ class LoginPage extends React.Component {
   }
 
   render() {
-    const { showLoginForm, mainLoading } = this.state;
+    const { showLoginForm, mainLoading, email } = this.state;
     return (
       <React.Fragment>
         {mainLoading ? (
@@ -105,7 +107,7 @@ class LoginPage extends React.Component {
                       <h1 style={{ textAlign: 'center' }}>Welcome! Complete your Sign Up.</h1>
                     </Col>
                     <Col xs={24}>
-                      <LoginForm />
+                      <LoginForm email={email} />
                     </Col>
                   </Row>
                 </Col>
