@@ -25,7 +25,7 @@ class MainPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mainLoading: false,
+      mainLoading: true,
       selectedTab: ['1']
     };
     this.logout = this.logout.bind(this);
@@ -41,7 +41,6 @@ class MainPage extends React.Component {
           .then(doc => {
             if (doc.exists) {
               this.saveUserDetailsAndProceed(doc.data(), doc.id);
-              this.setDefaultSelectedKeys();
               this.setState({ mainLoading: false });
             } else {
               this.setState({ mainLoading: false });
@@ -54,10 +53,6 @@ class MainPage extends React.Component {
         // No user is signed in.
       }
     });
-  }
-
-  setDefaultSelectedKeys() {
-    console.log(this.props.location.pathname);
   }
 
   saveUserDetailsAndProceed(userDetails, uid) {
