@@ -49,10 +49,11 @@ class LoginForm extends React.Component {
     if (this.validateFields()) {
       this.setState({ registerLoading: true });
       const { uid } = this.props;
+      const { email } = this.props;
       const { name, number } = this.state;
       db.collection('Users')
         .doc(uid)
-        .set({ uid, name, number })
+        .set({ uid, name, number, email })
         .then(() => {
           console.log('SUCCESS ADDED');
           this.props.history.push('/main');
