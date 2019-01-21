@@ -202,9 +202,6 @@ class MarketView extends React.Component {
         rentPrice,
         file
       } = this.state;
-
-      console.log(uid)
-     
     }
   }
 
@@ -257,12 +254,7 @@ class MarketView extends React.Component {
     } = this.state;
     return (
       <React.Fragment>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>Sell</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
-        <Layout style={{ padding: '24px 0', background: '#fff' }}>
+        <Layout style={{ margin: '16px 0', padding: '24px 0', background: '#fff' }}>
           <Content style={{ padding: '0 24px', minHeight: 280 }}>
             <Row>
               <Col xs={24} sm={18} md={18}>
@@ -384,12 +376,7 @@ class MarketView extends React.Component {
   mobileContent() {
     return (
       <React.Fragment>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>Sell</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
-        <Layout style={{ padding: '24px 0', background: '#fff' }}>
+        <Layout style={{ margin: '16px 0', padding: '24px 0', background: '#fff' }}>
           <Content style={{ padding: '0 24px', minHeight: 280 }} />
         </Layout>
       </React.Fragment>
@@ -415,8 +402,8 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const mapStateToProps = (state) => ({
-  uid:state.main.uid
+const mapStateToProps = state => ({
+  uid: state.main.uid
 });
 
 export default withRouter(

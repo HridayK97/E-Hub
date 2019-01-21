@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Router, Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { Layout, Row, Col, Spin, Menu, Breadcrumb, Icon, Form, Input, Button } from 'antd';
+import { Layout, Row, Col, Spin, Menu, Breadcrumb, Icon, Form, Input, Button, message } from 'antd';
 import Responsive from 'react-responsive';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
 import firebase from '../../config/config';
@@ -40,15 +40,17 @@ class MarketView extends React.Component {
     this.setState({ mainLoading: true });
   }
 
-  getAccountDetails(){
+  getAccountDetails() {
     const { uid } = this.props;
 
     console.log(uid);
-    db.collection('Users').doc(uid).get()
-    .then(doc=>{
-      const { name, number } = doc.data();
-      this.setState({name,number});
-    })
+    db.collection('Users')
+      .doc(uid)
+      .get()
+      .then(doc => {
+        const { name, number } = doc.data();
+        this.setState({ name, number });
+      });
   }
 
   onChangeName(ev) {
@@ -84,6 +86,7 @@ class MarketView extends React.Component {
           .doc(uid)
           .set({ name, number }, { merge: true })
           .then(() => {
+            message.success('Details successfully updated.');
             this.setState({ submitLoading: false, isEditing: !isEditing });
           });
       }
@@ -119,9 +122,9 @@ class MarketView extends React.Component {
     };
     return (
       <React.Fragment>
-        <Layout style={{ padding: '24px 0', background: '#fff' }}>
+        <Layout style={{ margin: '16px 0', padding: '24px 0', background: '#fff' }}>
           <Content style={{ padding: '0 24px', minHeight: 280 }}>
-            <h2>Philip Mathew</h2>
+            <h2>Profile Details</h2>
             <Row type="flex" justify="start" align="middle">
               <Col style={{ paddingTop: 10 }} xs={12}>
                 <Form>
@@ -212,7 +215,7 @@ const mapDispatchToProps = dispatch =>
 
 const mapStateToProps = state => ({
   uid: state.main.uid,
-  userDetails:state.main.userDetails
+  userDetails: state.main.userDetails
 });
 
 export default withRouter(
