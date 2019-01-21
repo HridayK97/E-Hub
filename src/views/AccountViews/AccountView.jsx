@@ -7,6 +7,7 @@ import { Router, Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { Layout, Row, Col, Spin, Menu, Breadcrumb, Icon, Form, Input, Button, message } from 'antd';
 import Responsive from 'react-responsive';
+import AccountItems from './AccountItems';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
 import firebase from '../../config/config';
 
@@ -126,7 +127,7 @@ class MarketView extends React.Component {
           <Content style={{ padding: '0 24px', minHeight: 280 }}>
             <h2>Profile Details</h2>
             <Row type="flex" justify="start" align="middle">
-              <Col style={{ paddingTop: 10 }} xs={12}>
+              <Col style={{ paddingTop: 10 }} xs={24} md={12}>
                 <Form>
                   <Form.Item
                     {...formItemLayout}
@@ -167,6 +168,9 @@ class MarketView extends React.Component {
                   </Form.Item>
                 </Form>
               </Col>
+              <Col xs={24}>
+                <AccountItems />
+              </Col>
             </Row>
           </Content>
         </Layout>
@@ -193,8 +197,8 @@ class MarketView extends React.Component {
     const { mainLoading } = this.state;
     return (
       <React.Fragment>
-        <Mobile>{this.mobileContent()}</Mobile>
-        <Default>{this.defaultContent()}</Default>
+        
+        {this.defaultContent()}
       </React.Fragment>
     );
   }
