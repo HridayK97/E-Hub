@@ -62,12 +62,7 @@ class MarketView extends React.Component {
   defaultContent() {
     return (
       <React.Fragment>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
-        <Layout style={{ padding: '24px 0', background: '#fff' }}>
+        <Layout style={{ margin: '16px 0', padding: '24px 0', background: '#fff' }}>
           <Sider width={200} style={{ background: '#fff' }}>
             <Menu
               mode="inline"
