@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import { Layout, Row, Spin, Menu, Breadcrumb, Icon } from 'antd';
 import Responsive from 'react-responsive';
 import MarketView from './MarketPlace/MarketView.jsx';
-import { setUserDetails } from '../reducers/main';
+import { setUserDetails, setCategories } from '../reducers/main';
 import mainRoutes from '../routes/mainRoutes';
 import firebase from '../config/config';
 
@@ -57,104 +57,13 @@ class MainPage extends React.Component {
   }
 
   getConstants() {
-
-    const categories = {
-      'Raspberry Pi': ['Boards', 'Accessories', 'Miscellaneous'],
-
-      Microcontrollers: ['Arduino Boards', 'TI Boards', 'Miscellaneous'],
-
-      'Power Sources': [
-        '9V Batteries',
-        'Lead Acid Batteries',
-        'Lithium Ion Batteries',
-        'Solar Cells and Panels',
-        'Holders and Connectors',
-        'Chargers and Adaptors',
-        'Miscellaneous'
-      ],
-
-      Relays: [
-        'Electromagnetic Relays',
-        'Solid State Relays',
-        'Hybrid Relays',
-        'Thermal Relays',
-        'Reed Relays',
-        'Miscellaneous'
-      ],
-
-      Sensors: [
-        'Accelerometers',
-        'Camera',
-        'Current Sensors',
-        'Direction Sensors',
-        'Distance Sensors',
-        'Fingerprint Sensors',
-        'Flex/Force Sensors',
-        'Gas Sensors',
-        'Grove Sensors',
-        'Gyro Sensors',
-        'IR And PIR Sensors',
-        'Light Sensors',
-        'Magnetic/RPM Sensors',
-        'Temperature Sensors',
-        'Humidity Sensors',
-        'Miscellaneous'
-      ],
-
-      Displays: ['LCD Displays', 'LED Displays', 'LED Lights', 'Miscellaneous'],
-
-      Motors: [
-        'BLDC Motors',
-        'General Purpose DC Motors',
-        'Servo Motors',
-        'High Torque DC Motors',
-        'Motor Driver Boards',
-        'Motor Blades and Attachments',
-        'Miscellaneous'
-      ],
-
-      Modules: [
-        'RTC Modules',
-        'Audio Modules',
-        'Bluetooth Modules',
-        'GPS Module',
-        'GSM Modules',
-        'RFID Module',
-        'RF Modules',
-        'WiFi Modules',
-        'ZIGBEE/XBEE Modules',
-        'Miscellaneous'
-      ],
-
-      Tools: [
-        'Breadboards',
-        'General Purpose Zero PCBs',
-        'Soldering Tools',
-        'Mechanical Tools',
-        'Meters and Testers',
-        'Jumper Cables',
-        'Berg Strips',
-        'IC Holders',
-        'Miscellaneous'
-      ],
-
-      'Consumer Electronics': [
-        'Laptops',
-        'Phones',
-        'Phone Cases',
-        'CDs',
-        'Desk Lamps',
-        'Table Fans',
-        'USB/Bluetooth Mouses',
-        'Computer Cables',
-        'Cable Ties',
-        'Miscellaneous'
-      ]
-    };
-
     db.collection('Constants')
       .doc('Categories')
-      .set(categories);
+      .get()
+      .then(doc => {
+        const categories = doc.data();
+        this.props.setCategories(categories);
+      });
   }
 
   saveUserDetailsAndProceed(userDetails, uid) {
@@ -284,7 +193,8 @@ MainPage.propTypes = {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      setUserDetails
+      setUserDetails,
+      setCategories
     },
     dispatch
   );

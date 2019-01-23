@@ -1,4 +1,5 @@
 export const SET_USER_DETAILS = 'main/SET_USER_DETAILS';
+export const SET_CATEGORIES = 'main/SET_CATEGORIES';
 export const SET_ACTIVE_ROLE = 'main/SET_ACTIVE_ROLE';
 export const SET_SYSTEM_DETAILS = 'main/SET_SYSTEM_DETAILS';
 export const SET_SELECTED_TAB = 'main/SET_SELECTED_TAB';
@@ -6,6 +7,7 @@ export const SET_SELECTED_TAB = 'main/SET_SELECTED_TAB';
 const initialState = {
   uid: '',
   userDetails: {},
+  categories: {},
   activeRole: '', // sales, finance, admin, or ops
   systemDetails: {},
   selectedTab: ['1']
@@ -24,6 +26,11 @@ export default (state = initialState, action) => {
         ...state,
         activeRole: action.role
       };
+    case SET_CATEGORIES:
+      return {
+        ...state,
+        categories: action.categories
+      };
     case SET_SYSTEM_DETAILS:
       return {
         ...state,
@@ -33,7 +40,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         selectedTab: action.selectedTab
-      }
+      };
     default:
       return state;
   }
@@ -44,6 +51,13 @@ export const setUserDetails = (userDetails, uid) => dispatch => {
     type: SET_USER_DETAILS,
     userDetails,
     uid
+  });
+};
+
+export const setCategories = categories => dispatch => {
+  dispatch({
+    type: SET_CATEGORIES,
+    categories
   });
 };
 
