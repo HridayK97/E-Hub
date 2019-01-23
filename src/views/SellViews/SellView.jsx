@@ -36,6 +36,7 @@ const { Header, Content, Footer, Sider } = Layout;
 
 //  Initalize firestore reference
 const db = firebase.firestore();
+const storage = firebase.storage();
 
 class MarketView extends React.Component {
   constructor(props) {
@@ -239,11 +240,28 @@ class MarketView extends React.Component {
           subcategory: category[1] ? category[1] : '', // In the case of miscellaneous, there is no subcategory
           createdAt: new Date()
         })
-        .then(() => {
-          this.setState({ submitLoading: false });
-          message.success('Submitted successfully.');
+        .then(doc => {
+          console.log(doc.id);
+          this.uploadImage(doc.id, file).then(() => {
+            this.setState({ submitLoading: false });
+            message.success('Submitted successfully.');
+          });
         });
     }
+  }
+
+  uploadImage(itemId, file) {
+    const storageRef = storage.ref(`items/${itemId}/images/mainImage`);
+    console.log(file);
+    return storageRef
+      .put(file.originFileObj)
+      .then(snapshot => storageRef.getDownloadURL())
+      .then(url =>
+        db
+          .collection('Items')
+          .doc(itemId)
+          .update({ imageUrl: url })
+      );
   }
 
   defaultContent() {
