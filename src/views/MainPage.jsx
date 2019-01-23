@@ -42,7 +42,6 @@ class MainPage extends React.Component {
             if (doc.exists) {
               this.saveUserDetailsAndProceed(doc.data(), doc.id);
               this.getConstants();
-              this.setState({ mainLoading: false });
             } else {
               this.setState({ mainLoading: false });
               this.props.history.push('/login');
@@ -63,6 +62,7 @@ class MainPage extends React.Component {
       .then(doc => {
         const categories = doc.data();
         this.props.setCategories(categories);
+        this.setState({ mainLoading: false });
       });
   }
 
