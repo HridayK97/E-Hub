@@ -103,6 +103,30 @@ class MarketView extends React.Component {
   componentDidMount() {
     this.props.setSelectedTab(['2']);
     this.setState({ mainLoading: true });
+    this.formatCategoriesToOptions();
+  }
+
+  formatCategoriesToOptions() {
+    const { categories } = this.props;
+
+    console.log(categories);
+
+    const options = Object.keys(categories).map(category => {
+      const obj = {};
+      obj.value = category;
+      obj.label = category;
+      obj.children = categories[category].map(subcategory => {
+        const obj2 = {};
+        obj2.value = subcategory;
+        obj2.label = subcategory;
+        return obj2;
+      });
+
+      return obj;
+    });
+
+    this.setState({ options });
+    console.log(options);
   }
 
   onChangeText(ev, stateName) {
@@ -202,6 +226,23 @@ class MarketView extends React.Component {
         rentPrice,
         file
       } = this.state;
+
+      db.collection('Items')
+        .add({
+          itemName,
+          itemDescription,
+          sellCheck,
+          rentCheck,
+          sellPrice,
+          rentPrice,
+          category: category[0],
+          subcategory: category[1] ? category[1] : '', // In the case of miscellaneous, there is no subcategory
+          createdAt: new Date()
+        })
+        .then(() => {
+          this.setState({ submitLoading: false });
+          message.success('Submitted successfully.');
+        });
     }
   }
 
@@ -403,7 +444,8 @@ const mapDispatchToProps = dispatch =>
   );
 
 const mapStateToProps = state => ({
-  uid: state.main.uid
+  uid: state.main.uid,
+  categories: state.main.categories
 });
 
 export default withRouter(
