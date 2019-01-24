@@ -3,9 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Router, Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { Layout, Row, Col, Spin, Menu, Breadcrumb, Icon, Button } from 'antd';
+import { Layout, Row, Col, Spin, Breadcrumb, Button } from 'antd';
 import Responsive from 'react-responsive';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
 import firebase from '../../config/config';
@@ -13,8 +12,7 @@ import firebase from '../../config/config';
 const Mobile = props => <Responsive {...props} maxWidth={767} />;
 const Default = props => <Responsive {...props} minWidth={768} />;
 
-const { SubMenu } = Menu;
-const { Header, Content, Footer, Sider } = Layout;
+const { Content } = Layout;
 
 //  Initalize firestore reference
 const db = firebase.firestore();
@@ -47,8 +45,8 @@ class MarketView extends React.Component {
           .collection('Users')
           .doc(sellerId)
           .get()
-          .then(doc => {
-            const { name, number } = doc.data();
+          .then(userDoc => {
+            const { name, number } = userDoc.data();
             this.setState({ sellerName: name, sellerContact: number, mainLoading: false });
           });
       });
@@ -209,8 +207,8 @@ class MarketView extends React.Component {
                   </Row>
                 </Col>
                 <Col xs={24} md={12}>
-                <h2>Description</h2>
-                <p>{itemDescription}</p>
+                  <h2>Description</h2>
+                  <p>{itemDescription}</p>
                 </Col>
               </Row>
             </Content>
@@ -221,7 +219,6 @@ class MarketView extends React.Component {
   }
 
   render() {
-    const { mainLoading } = this.state;
     return (
       <React.Fragment>
         <Mobile>{this.mobileContent()}</Mobile>

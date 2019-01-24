@@ -3,21 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Router, Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import {
-  Layout,
-  Row,
-  Col,
-  Spin,
-  Menu,
-  Breadcrumb,
-  Icon,
-  Card,
-  Avatar,
-  Select,
-  Pagination
-} from 'antd';
+import { Layout, Row, Col, Spin, Menu, Icon, Card, Select } from 'antd';
 import Responsive from 'react-responsive';
 import { setUserDetails, setSelectedTab, setItems } from '../../reducers/main';
 import firebase from '../../config/config';
@@ -25,8 +12,7 @@ import firebase from '../../config/config';
 const Mobile = props => <Responsive {...props} maxWidth={767} />;
 const Default = props => <Responsive {...props} minWidth={768} />;
 
-const { SubMenu } = Menu;
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 const { Meta } = Card;
 const { Option } = Select;
 
@@ -82,7 +68,7 @@ class MarketView extends React.Component {
   }
 
   handleChange(value) {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
   }
 
   onClickItem(itemId) {
@@ -91,7 +77,7 @@ class MarketView extends React.Component {
 
   onSelectCategoryMenu(data) {
     const { item, key, keyPath } = data;
-    console.log(item, key, keyPath);
+    // console.log(item, key, keyPath);
     const { items, categories } = this.props;
 
     if (key === 'All') {
@@ -143,19 +129,19 @@ class MarketView extends React.Component {
     }
   }
 
-  handleSubcategoryChange(value, option) {
+  handleSubcategoryChange(value) {
     const { selectedCategoryItems } = this.state;
     if (value.length === 0) {
       this.setState({ selectedItems: selectedCategoryItems });
     } else {
       const selectedItems = selectedCategoryItems.filter(item => value.includes(item.subcategory));
-      console.log(selectedItems);
+      // console.log(selectedItems);
       this.setState({ selectedItems });
     }
   }
 
   defaultContent() {
-    console.log(this.state.selectedItems);
+    // console.log(this.state.selectedItems);
     return (
       <React.Fragment>
         <Layout style={{ margin: '16px 0', padding: '24px 0', background: '#fff' }}>
@@ -171,7 +157,7 @@ class MarketView extends React.Component {
                 <Icon type="pie-chart" />
                 <span>All</span>
               </Menu.Item>
-              {this.state.categories.map((category, i) => (
+              {this.state.categories.map(category => (
                 <Menu.Item key={category}>
                   <Icon type="pie-chart" />
                   <span>{category}</span>
@@ -191,7 +177,7 @@ class MarketView extends React.Component {
                     defaultValue={[]}
                     onChange={this.handleSubcategoryChange}
                   >
-                    {this.state.subcategories.map((subcat, i) => (
+                    {this.state.subcategories.map(subcat => (
                       <Option key={subcat}>{subcat}</Option>
                     ))}
                   </Select>
@@ -206,38 +192,39 @@ class MarketView extends React.Component {
               <Row>
                 {this.state.selectedItems.map(item => (
                   <Col style={{ padding: '10px 0' }} xs={8}>
-                    <a><Card
-                      onClick={()=>this.onClickItem(item.itemId)}
-                      style={{ width: 300 }}
-                      cover={
-                        <div style={{ height: 150, width: 300 }}>
-                          <img
-                            style={{
-                              padding: 5,
-                              height: '100%',
-                              width: '100%',
-                              objectFit: 'contain'
-                            }}
-                            alt="example"
-                            src={item.imageUrl}
-                          />
-                        </div>
-                      }
-                    >
-                      <Meta
-                        title={item.itemName}
-                        description={
-                          <React.Fragment>
-                            {item.sellCheck ? (
-                              <p style={{ float: 'left' }}>Buy: Rs {item.sellPrice}</p>
-                            ) : null}
-                            {item.rentCheck ? (
-                              <p style={{ float: 'right' }}>Rent: Rs {item.rentPrice}</p>
-                            ) : null}
-                          </React.Fragment>
+                    <a>
+                      <Card
+                        onClick={() => this.onClickItem(item.itemId)}
+                        style={{ width: 300 }}
+                        cover={
+                          <div style={{ height: 150, width: 300 }}>
+                            <img
+                              style={{
+                                padding: 5,
+                                height: '100%',
+                                width: '100%',
+                                objectFit: 'contain'
+                              }}
+                              alt="example"
+                              src={item.imageUrl}
+                            />
+                          </div>
                         }
-                      />
-                    </Card>
+                      >
+                        <Meta
+                          title={item.itemName}
+                          description={
+                            <React.Fragment>
+                              {item.sellCheck ? (
+                                <p style={{ float: 'left' }}>Buy: Rs {item.sellPrice}</p>
+                              ) : null}
+                              {item.rentCheck ? (
+                                <p style={{ float: 'right' }}>Rent: Rs {item.rentPrice}</p>
+                              ) : null}
+                            </React.Fragment>
+                          }
+                        />
+                      </Card>
                     </a>
                   </Col>
                 ))}
@@ -260,9 +247,9 @@ class MarketView extends React.Component {
               defaultValue={['All']}
               onChange={this.onSelectCategorySelect}
             >
-              <Option key={'All'}>All</Option>
+              <Option key="All">All</Option>
 
-              {this.state.categories.map((category, i) => (
+              {this.state.categories.map(category => (
                 <Option key={category}>{category}</Option>
               ))}
             </Select>
@@ -279,7 +266,7 @@ class MarketView extends React.Component {
                     defaultValue={[]}
                     onChange={this.handleSubcategoryChange}
                   >
-                    {this.state.subcategories.map((subcat, i) => (
+                    {this.state.subcategories.map(subcat => (
                       <Option key={subcat}>{subcat}</Option>
                     ))}
                   </Select>
@@ -337,7 +324,6 @@ class MarketView extends React.Component {
   }
 
   render() {
-    const { mainLoading } = this.state;
     return (
       <React.Fragment>
         <Mobile>{this.mobileContent()}</Mobile>
