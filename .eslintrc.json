@@ -9,6 +9,7 @@
     "prettier/prettier": ["error"],
     "react/no-unused-prop-types":"off",
     "react/sort-comp":"off",
+    "class-methods-use-this":"off",
     "react/jsx-filename-extension": [
         1,
         {
