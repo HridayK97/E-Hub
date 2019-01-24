@@ -5,11 +5,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Redirect, Switch, Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { Layout, Row, Spin, Menu } from 'antd';
+import { Layout, Row, Spin, Menu, Avatar  } from 'antd';
 import Responsive from 'react-responsive';
 import { setUserDetails, setCategories } from '../reducers/main';
 import mainRoutes from '../routes/mainRoutes';
 import firebase from '../config/config';
+import logo from '../assets/images/logo.png'
 
 const Mobile = props => <Responsive {...props} maxWidth={767} />;
 const Default = props => <Responsive {...props} minWidth={768} />;
@@ -85,7 +86,7 @@ class MainPage extends React.Component {
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Header className="header">
-          <div className="logo" />
+         
           <Menu
             theme="dark"
             mode="horizontal"
@@ -93,6 +94,18 @@ class MainPage extends React.Component {
             selectedKeys={this.props.selectedTab}
             style={{ lineHeight: '64px' }}
           >
+
+          <Menu.Item key="0">
+          <a href='/main/market'>
+          <img
+          style={{
+            height: 60, width:84
+          }}
+          src={logo}
+        />
+        </a>
+            </Menu.Item>
+          
             <Menu.Item key="1">
               <Link to="/main/market">Market</Link>
             </Menu.Item>
@@ -134,6 +147,16 @@ class MainPage extends React.Component {
             selectedKeys={this.props.selectedTab}
             style={{ lineHeight: '64px' }}
           >
+          <Menu.Item key="0">
+          <a href='/main/market'>
+          <img
+          style={{
+            height: 60, width:84
+          }}
+          src={logo}
+        />
+        </a>
+            </Menu.Item>
             <Menu.Item key="1">
               <Link to="/main/market">Market</Link>
             </Menu.Item>
@@ -144,7 +167,7 @@ class MainPage extends React.Component {
               <Link to="/main/account">My Account</Link>
             </Menu.Item>
 
-            <Menu.Item onClick={this.logout} style={{ float: 'right' }} key="4">
+            <Menu.Item onClick={this.logout} key="4">
               Logout
             </Menu.Item>
           </Menu>
