@@ -3,11 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Redirect, Switch, Router, Route, Link } from 'react-router-dom';
+import { Redirect, Switch, Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { Layout, Row, Spin, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout, Row, Spin, Menu } from 'antd';
 import Responsive from 'react-responsive';
-import MarketView from './MarketPlace/MarketView.jsx';
 import { setUserDetails, setCategories } from '../reducers/main';
 import mainRoutes from '../routes/mainRoutes';
 import firebase from '../config/config';
@@ -15,8 +14,7 @@ import firebase from '../config/config';
 const Mobile = props => <Responsive {...props} maxWidth={767} />;
 const Default = props => <Responsive {...props} minWidth={768} />;
 
-const { SubMenu } = Menu;
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer } = Layout;
 
 //  Initalize firestore reference
 const db = firebase.firestore();
@@ -25,8 +23,7 @@ class MainPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mainLoading: true,
-      selectedTab: ['1']
+      mainLoading: true
     };
     this.logout = this.logout.bind(this);
   }
