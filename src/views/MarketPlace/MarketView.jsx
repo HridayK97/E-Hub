@@ -41,6 +41,7 @@ class MarketView extends React.Component {
       categories: [],
       allSelected: true,
       selectedItems: [],
+      selectedCategory: 'All',
       selectedCategoryItems: [],
       subcategories: [],
       subcategoriesValue: []
@@ -48,6 +49,7 @@ class MarketView extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.onClickItem = this.onClickItem.bind(this);
     this.onSelectCategoryMenu = this.onSelectCategoryMenu.bind(this);
+    this.onSelectCategorySelect = this.onSelectCategorySelect.bind(this);
     this.handleSubcategoryChange = this.handleSubcategoryChange.bind(this);
   }
 
@@ -95,6 +97,7 @@ class MarketView extends React.Component {
 
     if (key === 'All') {
       this.setState({
+        selectedCategory: key,
         selectedItems: items,
         allSelected: true,
         subcategoriesValue: [],
@@ -105,6 +108,33 @@ class MarketView extends React.Component {
       const selectedItems = items.filter(itemDoc => itemDoc.category === key);
       const subcategories = categories[key];
       this.setState({
+        selectedCategory: key,
+        selectedItems,
+        allSelected: false,
+        subcategories,
+        subcategoriesValue: [],
+        selectedCategoryItems: selectedItems
+      });
+    }
+  }
+
+  onSelectCategorySelect(key) {
+    const { items, categories } = this.props;
+
+    if (key === 'All') {
+      this.setState({
+        selectedCategory: key,
+        selectedItems: items,
+        allSelected: true,
+        subcategoriesValue: [],
+        selectedCategoryItems: []
+      });
+      // db.collection('Items').get
+    } else {
+      const selectedItems = items.filter(itemDoc => itemDoc.category === key);
+      const subcategories = categories[key];
+      this.setState({
+        selectedCategory: key,
         selectedItems,
         allSelected: false,
         subcategories,
@@ -120,6 +150,7 @@ class MarketView extends React.Component {
       this.setState({ selectedItems: selectedCategoryItems });
     } else {
       const selectedItems = selectedCategoryItems.filter(item => value.includes(item.subcategory));
+      console.log(selectedItems);
       this.setState({ selectedItems });
     }
   }
@@ -151,7 +182,7 @@ class MarketView extends React.Component {
           </Sider>
           <Content style={{ padding: '0 24px', minHeight: 280 }}>
             <Row style={{ padding: '10px 0px' }}>
-              <h2>Selected Category</h2>
+              <h2>{this.state.selectedCategory}</h2>
               {this.state.allSelected ? null : (
                 <Col xs={24} sm={16} md={8}>
                   <Select
@@ -221,25 +252,24 @@ class MarketView extends React.Component {
   mobileContent() {
     return (
       <React.Fragment>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
         <Layout style={{ padding: '0 0', background: '#fff' }}>
-          <Select
-            style={{ width: '100%' }}
-            placeholder="Filter Sub-Categories"
-            defaultValue={['All']}
-            onChange={this.handleChange}
-          >
-            {this.state.categories.map((cat, i) => (
-              <Option key={i}>{cat}</Option>
-            ))}
-          </Select>
-          <Content style={{ padding: '0 24px', minHeight: 280 }}>
+          <Row style={{ padding: '10px 0px' }}>
+            <Select
+              style={{ width: '100%' }}
+              placeholder="Select Category"
+              defaultValue={['All']}
+              onChange={this.onSelectCategorySelect}
+            >
+              <Option key={'All'}>All</Option>
+
+              {this.state.categories.map((category, i) => (
+                <Option key={category}>{category}</Option>
+              ))}
+            </Select>
+          </Row>
+          <Content style={{ padding: '10 10px', minHeight: '100vh' }}>
             <Row style={{ padding: '10px 0px' }}>
-              <h2>Selected Category</h2>
+              <h2>{this.state.selectedCategory}</h2>
               {this.state.allSelected ? null : (
                 <Col xs={24} md={8}>
                   <Select
@@ -247,52 +277,59 @@ class MarketView extends React.Component {
                     style={{ width: '100%' }}
                     placeholder="Filter Sub-Categories"
                     defaultValue={[]}
-                    onChange={this.handleChange}
+                    onChange={this.handleSubcategoryChange}
                   >
                     {this.state.subcategories.map((subcat, i) => (
-                      <Option key={i}>{subcat}</Option>
+                      <Option key={subcat}>{subcat}</Option>
                     ))}
                   </Select>
                 </Col>
               )}
             </Row>
-            <Row>
-              {[0, 1, 2, 3, 4, 5, 6].map(key => (
-                <Col style={{ padding: '10px 0px' }} xs={24}>
-                  <Card
-                    onClick={this.onClickItem}
-                    style={{ width: '100%' }}
-                    cover={
-                      <div style={{ height: 150, width: '100%' }}>
-                        <img
-                          style={{
-                            padding: 5,
-                            height: '100%',
-                            width: '100%',
-                            objectFit: 'contain'
-                          }}
-                          alt="example"
-                          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                        />
-                      </div>
-                    }
-                  >
-                    <Meta
-                      title="Item Name"
-                      description={
-                        <React.Fragment>
-                          <p style={{ float: 'right' }}>Buy: Rs 100</p>
-                          <p style={{ float: 'left' }}>Rent: Rs 100</p>
-                        </React.Fragment>
+            {this.state.mainLoading ? (
+              <Row type="flex" justify="center" align="middle">
+                <Spin size="medium" />
+              </Row>
+            ) : (
+              <Row>
+                {this.state.selectedItems.map(item => (
+                  <Col style={{ padding: '10px 0px' }} xs={24}>
+                    <Card
+                      onClick={this.onClickItem}
+                      style={{ width: '100%' }}
+                      cover={
+                        <div style={{ height: 150, width: '100%' }}>
+                          <img
+                            style={{
+                              padding: 5,
+                              height: '100%',
+                              width: '100%',
+                              objectFit: 'contain'
+                            }}
+                            alt="example"
+                            src={item.imageUrl}
+                          />
+                        </div>
                       }
-                    />
-                  </Card>
-                </Col>
-              ))}
-            </Row>
-            <Row type="flex" justify="center" align="middle">
-              <Pagination defaultCurrent={1} total={50} />
-            </Row>
+                    >
+                      <Meta
+                        title={item.itemName}
+                        description={
+                          <React.Fragment>
+                            {item.sellCheck ? (
+                              <p style={{ float: 'left' }}>Buy: Rs {item.sellPrice}</p>
+                            ) : null}
+                            {item.rentCheck ? (
+                              <p style={{ float: 'right' }}>Rent: Rs {item.rentPrice}</p>
+                            ) : null}
+                          </React.Fragment>
+                        }
+                      />
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            )}
           </Content>
         </Layout>
       </React.Fragment>
