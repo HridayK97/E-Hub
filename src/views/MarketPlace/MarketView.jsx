@@ -85,8 +85,7 @@ class MarketView extends React.Component {
     console.log(`selected ${value}`);
   }
 
-  onClickItem() {
-    const itemId = 'itemID';
+  onClickItem(itemId) {
     this.props.history.push(`/main/market/${itemId}`);
   }
 
@@ -207,8 +206,8 @@ class MarketView extends React.Component {
               <Row>
                 {this.state.selectedItems.map(item => (
                   <Col style={{ padding: '10px 0' }} xs={8}>
-                    <Card
-                      onClick={this.onClickItem}
+                    <a><Card
+                      onClick={()=>this.onClickItem(item.itemId)}
                       style={{ width: 300 }}
                       cover={
                         <div style={{ height: 150, width: 300 }}>
@@ -239,6 +238,7 @@ class MarketView extends React.Component {
                         }
                       />
                     </Card>
+                    </a>
                   </Col>
                 ))}
               </Row>

@@ -257,6 +257,7 @@ class MarketView extends React.Component {
 
       db.collection('Items')
         .add({
+          sellerId: uid,
           itemName,
           itemDescription,
           sellCheck,
