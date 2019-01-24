@@ -97,7 +97,7 @@ class MainPage extends React.Component {
             style={{ lineHeight: '64px' }}
           >
             <Menu.Item key="1">
-              <Link to="/main/market">Home</Link>
+              <Link to="/main/market">Market</Link>
             </Menu.Item>
             <Menu.Item key="2">
               <Link to="/main/sell">Sell</Link>
@@ -138,7 +138,7 @@ class MainPage extends React.Component {
             style={{ lineHeight: '64px' }}
           >
             <Menu.Item key="1">
-              <Link to="/main/market">Home</Link>
+              <Link to="/main/market">Market</Link>
             </Menu.Item>
             <Menu.Item key="2">
               <Link to="/main/sell">Sell</Link>
