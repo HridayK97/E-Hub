@@ -25,6 +25,7 @@ import {
 import Responsive from 'react-responsive';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
 import firebase from '../../config/config';
+import { timingSafeEqual } from 'crypto';
 
 const Mobile = props => <Responsive {...props} maxWidth={767} />;
 const Default = props => <Responsive {...props} minWidth={768} />;
@@ -60,6 +61,7 @@ class MarketView extends React.Component {
       rentPriceStatus: 'success',
       sellOptionsStatus: 'success',
       imageStatus: 'success',
+      showUpload:true,
 
       options: [
         {
@@ -151,10 +153,35 @@ class MarketView extends React.Component {
 
   onChangeFile(data) {
     const { file, fileList, event } = data;
-    console.log(file, fileList, event);
-    console.log('length', fileList.length);
+    // console.log(file, fileList, event);
+    // console.log('length', fileList.length);
     if (fileList.length === 1) this.setState({ file, uploadDisabled: true });
     else if (fileList.length === 0) this.setState({ file: undefined, uploadDisabled: false });
+  }
+
+  clearForm(){
+    this.setState({
+      itemName: '',
+      itemDescription: '',
+      category: [],
+      sellCheck: false,
+      rentCheck: false,
+      sellPrice: null,
+      rentPrice: null,
+      fileList: [],
+      file:null,
+      uploadDisabled: false,
+      itemNameStatus: 'success',
+      itemDescriptionStatus: 'success',
+      categoryStatus: 'success',
+      sellPriceStatus: 'success',
+      rentPriceStatus: 'success',
+      sellOptionsStatus: 'success',
+      imageStatus: 'success',
+      showUpload:false,
+    })
+
+    this.setState({ showUpload: true }); // forcing the upload component to re-render
   }
 
   validateFields() {
@@ -241,11 +268,16 @@ class MarketView extends React.Component {
           createdAt: new Date()
         })
         .then(doc => {
-          console.log(doc.id);
-          this.uploadImage(doc.id, file).then(() => {
-            this.setState({ submitLoading: false });
-            message.success('Submitted successfully.');
-          });
+          db.collection('Items')
+            .doc(doc.id)
+            .update({ itemId: doc.id })
+            .then(() => {
+              this.uploadImage(doc.id, file).then(() => {
+                this.setState({ submitLoading: false });
+                message.success('Submitted successfully.');
+                this.clearForm();
+              });
+            });
         });
     }
   }
@@ -407,11 +439,13 @@ class MarketView extends React.Component {
                     validateStatus={imageStatus}
                     help={imageStatus !== 'success' ? 'Upload Image' : ''}
                   >
+                  {this.state.showUpload&&
                     <Upload disabled={uploadDisabled} onChange={this.onChangeFile} {...props2}>
                       <Button>
                         <Icon type="upload" /> Upload
                       </Button>
                     </Upload>
+                  }
                   </Form.Item>
 
                   <Form.Item {...tailFormItemLayout}>
