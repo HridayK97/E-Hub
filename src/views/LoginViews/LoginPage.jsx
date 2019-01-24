@@ -9,6 +9,7 @@ import { Layout, Spin, Row, Col, Card } from 'antd';
 import firebase from '../../config/config';
 import { setUserDetails } from '../../reducers/main';
 import LoginForm from './LoginForm.jsx';
+import logo from '../../assets/images/logo.png';
 
 //  Initalize firestore reference
 const db = firebase.firestore();
@@ -112,8 +113,22 @@ class LoginPage extends React.Component {
                   </Row>
                 </Col>
               ) : (
+                <React.Fragment>
+                <Col xs={24}>
+                <div style={{ height: 300, width: '100%' }}>
+                <img
+                  style={{
+                    padding: 5,
+                    height: '100%',
+                    width: '100%',
+                    objectFit: 'contain'
+                  }}
+                  src={logo}
+                />
+              </div>
+                </Col>
                 <Col xs={20} md={12} lg={8}>
-                  <Card style={{ marginTop: '100px' }} title="Login to E-Hub">
+                  <Card style={{ marginTop: '0px' }} title="Login to E-Hub">
                     {this.state.webuiLoading ? (
                       <Spin />
                     ) : (
@@ -121,6 +136,7 @@ class LoginPage extends React.Component {
                     )}
                   </Card>
                 </Col>
+                </React.Fragment>
               )}
             </Row>
           </Layout>

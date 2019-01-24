@@ -10,7 +10,7 @@ import Responsive from 'react-responsive';
 import { setUserDetails, setCategories } from '../reducers/main';
 import mainRoutes from '../routes/mainRoutes';
 import firebase from '../config/config';
-import logo from '../assets/images/logo.png'
+import logo from '../assets/images/logo.png';
 
 const Mobile = props => <Responsive {...props} maxWidth={767} />;
 const Default = props => <Responsive {...props} minWidth={768} />;
