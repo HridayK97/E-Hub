@@ -3,20 +3,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Redirect, Switch, Router, Route, Link } from 'react-router-dom';
+import { Redirect, Switch, Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { Layout, Row, Spin, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout, Row, Spin, Menu } from 'antd';
 import Responsive from 'react-responsive';
-import MarketView from './MarketPlace/MarketView.jsx';
-import { setUserDetails } from '../reducers/main';
+import { setUserDetails, setCategories } from '../reducers/main';
 import mainRoutes from '../routes/mainRoutes';
 import firebase from '../config/config';
 
 const Mobile = props => <Responsive {...props} maxWidth={767} />;
 const Default = props => <Responsive {...props} minWidth={768} />;
 
-const { SubMenu } = Menu;
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer } = Layout;
 
 //  Initalize firestore reference
 const db = firebase.firestore();
@@ -25,8 +23,7 @@ class MainPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mainLoading: true,
-      selectedTab: ['1']
+      mainLoading: true
     };
     this.logout = this.logout.bind(this);
   }
@@ -41,7 +38,7 @@ class MainPage extends React.Component {
           .then(doc => {
             if (doc.exists) {
               this.saveUserDetailsAndProceed(doc.data(), doc.id);
-              this.setState({ mainLoading: false });
+              this.getConstants();
             } else {
               this.setState({ mainLoading: false });
               this.props.history.push('/login');
@@ -53,6 +50,17 @@ class MainPage extends React.Component {
         // No user is signed in.
       }
     });
+  }
+
+  getConstants() {
+    db.collection('Constants')
+      .doc('Categories')
+      .get()
+      .then(doc => {
+        const categories = doc.data();
+        this.props.setCategories(categories);
+        this.setState({ mainLoading: false });
+      });
   }
 
   saveUserDetailsAndProceed(userDetails, uid) {
@@ -86,7 +94,7 @@ class MainPage extends React.Component {
             style={{ lineHeight: '64px' }}
           >
             <Menu.Item key="1">
-              <Link to="/main/market">Home</Link>
+              <Link to="/main/market">Market</Link>
             </Menu.Item>
             <Menu.Item key="2">
               <Link to="/main/sell">Sell</Link>
@@ -127,7 +135,7 @@ class MainPage extends React.Component {
             style={{ lineHeight: '64px' }}
           >
             <Menu.Item key="1">
-              <Link to="/main/market">Home</Link>
+              <Link to="/main/market">Market</Link>
             </Menu.Item>
             <Menu.Item key="2">
               <Link to="/main/sell">Sell</Link>
@@ -182,7 +190,8 @@ MainPage.propTypes = {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      setUserDetails
+      setUserDetails,
+      setCategories
     },
     dispatch
   );

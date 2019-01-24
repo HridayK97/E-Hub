@@ -3,15 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Router, Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import {
   Layout,
   Row,
   Col,
   Spin,
-  Menu,
-  Breadcrumb,
   Icon,
   Button,
   Form,
@@ -22,20 +19,15 @@ import {
   Upload,
   message
 } from 'antd';
-import Responsive from 'react-responsive';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
 import firebase from '../../config/config';
 
-const Mobile = props => <Responsive {...props} maxWidth={767} />;
-const Default = props => <Responsive {...props} minWidth={768} />;
-
-const { Dragger } = Upload;
 const { TextArea } = Input;
-const { SubMenu } = Menu;
-const { Header, Content, Footer, Sider } = Layout;
+const { Content } = Layout;
 
 //  Initalize firestore reference
 const db = firebase.firestore();
+const storage = firebase.storage();
 
 class MarketView extends React.Component {
   constructor(props) {
@@ -59,6 +51,7 @@ class MarketView extends React.Component {
       rentPriceStatus: 'success',
       sellOptionsStatus: 'success',
       imageStatus: 'success',
+      showUpload: true,
 
       options: [
         {
@@ -103,6 +96,27 @@ class MarketView extends React.Component {
   componentDidMount() {
     this.props.setSelectedTab(['2']);
     this.setState({ mainLoading: true });
+    this.formatCategoriesToOptions();
+  }
+
+  formatCategoriesToOptions() {
+    const { categories } = this.props;
+
+    const options = Object.keys(categories).map(category => {
+      const obj = {};
+      obj.value = category;
+      obj.label = category;
+      obj.children = categories[category].map(subcategory => {
+        const obj2 = {};
+        obj2.value = subcategory;
+        obj2.label = subcategory;
+        return obj2;
+      });
+
+      return obj;
+    });
+
+    this.setState({ options });
   }
 
   onChangeText(ev, stateName) {
@@ -110,26 +124,48 @@ class MarketView extends React.Component {
   }
 
   onChangeCategory(value) {
-    console.log(value);
     this.setState({ category: value });
   }
 
   onChangeCheck(ev, stateName) {
-    console.log(ev.target.checked);
     this.setState({ [stateName]: ev.target.checked });
   }
 
   onChangeNumber(value, stateName) {
-    console.log(value);
     this.setState({ [stateName]: value });
   }
 
   onChangeFile(data) {
-    const { file, fileList, event } = data;
-    console.log(file, fileList, event);
-    console.log('length', fileList.length);
+    const { file, fileList } = data;
+    // console.log(file, fileList, event);
+    // console.log('length', fileList.length);
     if (fileList.length === 1) this.setState({ file, uploadDisabled: true });
     else if (fileList.length === 0) this.setState({ file: undefined, uploadDisabled: false });
+  }
+
+  clearForm() {
+    this.setState({
+      itemName: '',
+      itemDescription: '',
+      category: [],
+      sellCheck: false,
+      rentCheck: false,
+      sellPrice: null,
+      rentPrice: null,
+      fileList: [],
+      file: null,
+      uploadDisabled: false,
+      itemNameStatus: 'success',
+      itemDescriptionStatus: 'success',
+      categoryStatus: 'success',
+      sellPriceStatus: 'success',
+      rentPriceStatus: 'success',
+      sellOptionsStatus: 'success',
+      imageStatus: 'success',
+      showUpload: false
+    });
+
+    this.setState({ showUpload: true }); // forcing the upload component to re-render
   }
 
   validateFields() {
@@ -202,7 +238,47 @@ class MarketView extends React.Component {
         rentPrice,
         file
       } = this.state;
+
+      db.collection('Items')
+        .add({
+          sellerId: uid,
+          itemName,
+          itemDescription,
+          sellCheck,
+          rentCheck,
+          sellPrice,
+          rentPrice,
+          category: category[0],
+          subcategory: category[1] ? category[1] : '', // In the case of miscellaneous, there is no subcategory
+          createdAt: new Date()
+        })
+        .then(doc => {
+          db.collection('Items')
+            .doc(doc.id)
+            .update({ itemId: doc.id })
+            .then(() => {
+              this.uploadImage(doc.id, file).then(() => {
+                this.setState({ submitLoading: false });
+                message.success('Submitted successfully.');
+                this.clearForm();
+              });
+            });
+        });
     }
+  }
+
+  uploadImage(itemId, file) {
+    const storageRef = storage.ref(`items/${itemId}/images/mainImage`);
+    // console.log(file);
+    return storageRef
+      .put(file.originFileObj)
+      .then(() => storageRef.getDownloadURL())
+      .then(url =>
+        db
+          .collection('Items')
+          .doc(itemId)
+          .update({ imageUrl: url })
+      );
   }
 
   defaultContent() {
@@ -249,7 +325,6 @@ class MarketView extends React.Component {
       sellPrice,
       rentPrice,
       imageStatus,
-      fileList,
       uploadDisabled
     } = this.state;
     return (
@@ -348,11 +423,13 @@ class MarketView extends React.Component {
                     validateStatus={imageStatus}
                     help={imageStatus !== 'success' ? 'Upload Image' : ''}
                   >
-                    <Upload disabled={uploadDisabled} onChange={this.onChangeFile} {...props2}>
-                      <Button>
-                        <Icon type="upload" /> Upload
-                      </Button>
-                    </Upload>
+                    {this.state.showUpload && (
+                      <Upload disabled={uploadDisabled} onChange={this.onChangeFile} {...props2}>
+                        <Button>
+                          <Icon type="upload" /> Upload
+                        </Button>
+                      </Upload>
+                    )}
                   </Form.Item>
 
                   <Form.Item {...tailFormItemLayout}>
@@ -384,7 +461,6 @@ class MarketView extends React.Component {
   }
 
   render() {
-    const { mainLoading } = this.state;
     return <React.Fragment>{this.defaultContent()}</React.Fragment>;
   }
 }
@@ -403,7 +479,8 @@ const mapDispatchToProps = dispatch =>
   );
 
 const mapStateToProps = state => ({
-  uid: state.main.uid
+  uid: state.main.uid,
+  categories: state.main.categories
 });
 
 export default withRouter(
