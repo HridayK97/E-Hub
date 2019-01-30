@@ -44,6 +44,10 @@ class MarketView extends React.Component {
     this.getItems();
     const { categories } = this.props;
     const categoriesList = Object.keys(categories);
+    const i = categoriesList.indexOf('Miscellaneous');
+    //  Re-order Miscellaneous to end of list
+    categoriesList.splice(i, 1);
+    categoriesList.push('Miscellaneous');
     //  categoriesList = ['All', ...categoriesList];
     this.setState({ categories: categoriesList });
   }
