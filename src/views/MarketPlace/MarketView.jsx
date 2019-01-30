@@ -282,7 +282,7 @@ class MarketView extends React.Component {
                 {this.state.selectedItems.map(item => (
                   <Col style={{ padding: '10px 0px' }} xs={24}>
                     <Card
-                      onClick={this.onClickItem}
+                      onClick={() => this.onClickItem(item.itemId)}
                       style={{ width: '100%' }}
                       cover={
                         <div style={{ height: 150, width: '100%' }}>
