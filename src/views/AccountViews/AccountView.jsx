@@ -18,7 +18,7 @@ class MarketView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mainLoading: false,
+      // mainLoading: false,
       submitLoading: false,
       isEditing: false,
       nameStatus: 'success',
@@ -32,7 +32,7 @@ class MarketView extends React.Component {
   componentDidMount() {
     this.props.setSelectedTab(['3']);
     this.getAccountDetails();
-    this.setState({ mainLoading: true });
+    // this.setState({ mainLoading: true });
   }
 
   getAccountDetails() {

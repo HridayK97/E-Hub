@@ -2,7 +2,7 @@ import MarketView from '../views/MarketPlace/MarketView.jsx';
 import SellView from '../views/SellViews/SellView.jsx';
 import AccountView from '../views/AccountViews/AccountView.jsx';
 import ItemPage from '../views/MarketPlace/ItemPage.jsx';
-import MainPage from '../views/MainPage.jsx';
+// import MainPage from '../views/MainPage.jsx';
 
 const mainRoutes = [
   //  Deeper routes first, so they can get matched before.

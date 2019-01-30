@@ -114,28 +114,31 @@ class LoginPage extends React.Component {
                 </Col>
               ) : (
                 <React.Fragment>
-                <Col xs={24}>
-                <div style={{ height: 300, width: '100%' }}>
-                <img
-                  style={{
-                    padding: 5,
-                    height: '100%',
-                    width: '100%',
-                    objectFit: 'contain'
-                  }}
-                  src={logo}
-                />
-              </div>
-                </Col>
-                <Col xs={20} md={12} lg={8}>
-                  <Card style={{ marginTop: '0px' }} title="Login to E-Hub">
-                    {this.state.webuiLoading ? (
-                      <Spin />
-                    ) : (
-                      <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()} />
-                    )}
-                  </Card>
-                </Col>
+                  <Col xs={24}>
+                    <div style={{ height: 300, width: '100%' }}>
+                      <img
+                        style={{
+                          padding: 5,
+                          height: '100%',
+                          width: '100%',
+                          objectFit: 'contain'
+                        }}
+                        src={logo}
+                      />
+                    </div>
+                  </Col>
+                  <Col xs={20} md={12} lg={8}>
+                    <Card style={{ marginTop: '0px' }} title="Login to E-Hub">
+                      {this.state.webuiLoading ? (
+                        <Spin />
+                      ) : (
+                        <StyledFirebaseAuth
+                          uiConfig={this.uiConfig}
+                          firebaseAuth={firebase.auth()}
+                        />
+                      )}
+                    </Card>
+                  </Col>
                 </React.Fragment>
               )}
             </Row>

@@ -29,8 +29,8 @@ class MarketView extends React.Component {
       selectedItems: [],
       selectedCategory: 'All',
       selectedCategoryItems: [],
-      subcategories: [],
-      subcategoriesValue: []
+      subcategories: []
+      // subcategoriesValue: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.onClickItem = this.onClickItem.bind(this);
@@ -85,7 +85,7 @@ class MarketView extends React.Component {
         selectedCategory: key,
         selectedItems: items,
         allSelected: true,
-        subcategoriesValue: [],
+        // subcategoriesValue: [],
         selectedCategoryItems: []
       });
       // db.collection('Items').get
@@ -97,7 +97,7 @@ class MarketView extends React.Component {
         selectedItems,
         allSelected: false,
         subcategories,
-        subcategoriesValue: [],
+        // subcategoriesValue: [],
         selectedCategoryItems: selectedItems
       });
     }
@@ -111,7 +111,7 @@ class MarketView extends React.Component {
         selectedCategory: key,
         selectedItems: items,
         allSelected: true,
-        subcategoriesValue: [],
+        // subcategoriesValue: [],
         selectedCategoryItems: []
       });
       // db.collection('Items').get
