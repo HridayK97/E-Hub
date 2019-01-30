@@ -161,6 +161,7 @@ class MarketView extends React.Component {
       sellPriceStatus: 'success',
       rentPriceStatus: 'success',
       sellOptionsStatus: 'success',
+      sellOptionsError: '',
       imageStatus: 'success',
       showUpload: false
     });
@@ -203,15 +204,21 @@ class MarketView extends React.Component {
 
     if (!sellCheck && !rentCheck) {
       valid = false;
-      this.setState({ sellOptionsStatus: 'error' });
+      this.setState({ sellOptionsStatus: 'error', sellOptionsError: 'Select at least one.' });
     } else if (sellCheck && sellPrice <= 0) {
       valid = false;
-      this.setState({ sellOptionsStatus: 'error' });
+      this.setState({ sellOptionsStatus: 'error', sellOptionsError: 'Invalid Sell Price.' });
     } else if (rentCheck && rentPrice <= 0) {
       valid = false;
-      this.setState({ sellOptionsStatus: 'error' });
+      this.setState({ sellOptionsStatus: 'error', sellOptionsError: 'Invalid Rent Price.' });
     } else {
-      this.setState({ sellOptionsStatus: 'success' });
+      if (sellCheck && rentCheck && rentPrice > sellPrice) {
+        valid = false;
+        this.setState({
+          sellOptionsStatus: 'error',
+          sellOptionsError: 'Rent price must be lower than sell price.'
+        });
+      } else this.setState({ sellOptionsStatus: 'success', sellOptionsError:'' });
     }
 
     if (!file) {
@@ -325,7 +332,8 @@ class MarketView extends React.Component {
       sellPrice,
       rentPrice,
       imageStatus,
-      uploadDisabled
+      uploadDisabled,
+      sellOptionsError
     } = this.state;
     return (
       <React.Fragment>
@@ -383,7 +391,7 @@ class MarketView extends React.Component {
                     {...formItemLayout}
                     label="Sell Options"
                     validateStatus={sellOptionsStatus}
-                    help={sellOptionsStatus !== 'success' ? 'Select at least one.' : ''}
+                    help={sellOptionsStatus !== 'success' ? sellOptionsError : ''}
                   >
                     <Checkbox
                       checked={sellCheck}
