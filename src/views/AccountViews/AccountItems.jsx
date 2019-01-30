@@ -51,10 +51,10 @@ class AccountItems extends React.Component {
     confirm({
       title: 'Do you want to delete this listing?',
       content: '',
-      onOk: () => {
-        return new Promise(resolve => {
+      onOk: () =>
+        new Promise(resolve =>
           // setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-          return db
+          db
             .collection('Items')
             .doc(itemId)
             .delete()
@@ -62,9 +62,8 @@ class AccountItems extends React.Component {
               message.success('Item has been successfully deleted.');
               this.getListedItems();
               resolve();
-            });
-        }).catch(() => console.log('Oops errors!'));
-      },
+            })
+        ).catch(() => console.log('Oops errors!')),
       onCancel() {}
     });
   }
