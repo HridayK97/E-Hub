@@ -49,6 +49,10 @@ class MarketView extends React.Component {
             const { name, number } = userDoc.data();
             this.setState({ sellerName: name, sellerContact: number, mainLoading: false });
           });
+      })
+      .catch(() => {
+        this.setState({ mainLoading: false });
+        this.props.history.push('/main/market');
       });
   }
 

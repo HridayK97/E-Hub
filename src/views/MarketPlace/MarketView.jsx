@@ -29,8 +29,8 @@ class MarketView extends React.Component {
       selectedItems: [],
       selectedCategory: 'All',
       selectedCategoryItems: [],
-      subcategories: [],
-      subcategoriesValue: []
+      subcategories: []
+      // subcategoriesValue: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.onClickItem = this.onClickItem.bind(this);
@@ -44,6 +44,10 @@ class MarketView extends React.Component {
     this.getItems();
     const { categories } = this.props;
     const categoriesList = Object.keys(categories);
+    const i = categoriesList.indexOf('Miscellaneous');
+    //  Re-order Miscellaneous to end of list
+    categoriesList.splice(i, 1);
+    categoriesList.push('Miscellaneous');
     //  categoriesList = ['All', ...categoriesList];
     this.setState({ categories: categoriesList });
   }
@@ -85,7 +89,7 @@ class MarketView extends React.Component {
         selectedCategory: key,
         selectedItems: items,
         allSelected: true,
-        subcategoriesValue: [],
+        // subcategoriesValue: [],
         selectedCategoryItems: []
       });
       // db.collection('Items').get
@@ -97,7 +101,7 @@ class MarketView extends React.Component {
         selectedItems,
         allSelected: false,
         subcategories,
-        subcategoriesValue: [],
+        // subcategoriesValue: [],
         selectedCategoryItems: selectedItems
       });
     }
@@ -111,7 +115,7 @@ class MarketView extends React.Component {
         selectedCategory: key,
         selectedItems: items,
         allSelected: true,
-        subcategoriesValue: [],
+        // subcategoriesValue: [],
         selectedCategoryItems: []
       });
       // db.collection('Items').get
@@ -282,7 +286,7 @@ class MarketView extends React.Component {
                 {this.state.selectedItems.map(item => (
                   <Col style={{ padding: '10px 0px' }} xs={24}>
                     <Card
-                      onClick={this.onClickItem}
+                      onClick={() => this.onClickItem(item.itemId)}
                       style={{ width: '100%' }}
                       cover={
                         <div style={{ height: 150, width: '100%' }}>
