@@ -15,6 +15,19 @@ const Default = props => <Responsive {...props} minWidth={768} />;
 const { Content, Sider } = Layout;
 const { Meta } = Card;
 const { Option } = Select;
+const categoryIcons = {
+  'Consumer Electronics': 'laptop',
+  Displays: 'desktop',
+  Microcontrollers: 'deployment-unit',
+  Modules: 'gateway',
+  Motors: 'heat-map',
+  'Power Sources': 'thunderbolt',
+  'Raspberry Pi': 'hdd',
+  Relays: 'sliders',
+  Sensors: 'bulb',
+  Tools: 'tool',
+  Miscellaneous: 'exception'
+};
 
 //  Initalize firestore reference
 const db = firebase.firestore();
@@ -163,7 +176,7 @@ class MarketView extends React.Component {
               </Menu.Item>
               {this.state.categories.map(category => (
                 <Menu.Item key={category}>
-                  <Icon type="pie-chart" />
+                  <Icon type={categoryIcons[category] || 'pie-chart'} />
                   <span>{category}</span>
                 </Menu.Item>
               ))}
