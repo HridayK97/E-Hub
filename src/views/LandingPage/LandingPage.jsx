@@ -91,7 +91,7 @@ class MarketView extends React.Component {
                   <Button
                     style={{ display: 'block', margin: 'auto' }}
                     type="primary"
-                    icon="download"
+                    icon="appstore"
                     size="large"
                   >
                     Market Place
@@ -101,7 +101,7 @@ class MarketView extends React.Component {
                   <Button
                     style={{ display: 'block', margin: 'auto' }}
                     type="primary"
-                    icon="download"
+                    icon="team"
                     size="large"
                   >
                     Project Forums
@@ -114,7 +114,7 @@ class MarketView extends React.Component {
                   <Button
                     style={{ height: 80, fontSize: 30, float:'right', marginRight:40 }}
                     type="primary"
-                    icon="download"
+                    icon="appstore"
                     size="large"
                   >
                     Market Place
@@ -124,7 +124,7 @@ class MarketView extends React.Component {
                   <Button
                     style={{ height: 80, fontSize: 30, float:'left',marginLeft:40 }}
                     type="primary"
-                    icon="download"
+                    icon="team"
                     size="large"
                   >
                     Project Forums
