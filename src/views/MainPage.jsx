@@ -137,7 +137,7 @@ class MainPage extends React.Component {
             })}
           </Switch>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>E-Hub Footer</Footer>
+        <Footer style={{ backgroundColor:'#001529',textAlign: 'center' }}><span style={{color:'#fff'}}>E-Hub Venture by Philip Mathew and Hriday Kaju</span></Footer>
       </Layout>
     );
   }
@@ -195,7 +195,8 @@ class MainPage extends React.Component {
             })}
           </Switch>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>E-Hub Footer</Footer>
+        <Footer style={{ backgroundColor:'#001529',textAlign: 'center' }}><span style={{color:'#fff'}}>E-Hub Venture by Philip Mathew and Hriday Kaju</span></Footer>
+      
       </Layout>
     );
   }
