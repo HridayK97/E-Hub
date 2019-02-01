@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { Layout, Row, Col, Spin, Breadcrumb, Form, Input, Button, message } from 'antd';
+import { Empty, Layout, Row, Col, Spin, Breadcrumb, Form, Input, Button, message } from 'antd';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
 import firebase from '../../config/config';
 
@@ -27,15 +27,11 @@ class MarketView extends React.Component {
       nameStatus: 'success',
       numberStatus: 'success'
     };
-
   }
 
   componentDidMount() {
     this.props.setSelectedTab(['5']);
-
   }
-
-  
 
   defaultContent() {
     const { nameStatus, numberStatus, name, number, submitLoading } = this.state;
@@ -66,9 +62,14 @@ class MarketView extends React.Component {
       <React.Fragment>
         <Layout style={{ margin: '16px 0', padding: '24px 0', background: '#fff' }}>
           <Content style={{ padding: '0 24px', minHeight: '100vh' }}>
-          
-         Coming Soon
-       
+            <Row type="flex" justify="center" align="middle">
+              <Col span={24}>
+                <h1>Project Forums</h1>
+                <Col xs={24} md={12}>
+                  <span style={{ fontSize: '20px', textAlign: 'left' }}>Coming Soon!</span>
+                </Col>
+              </Col>
+            </Row>
           </Content>
         </Layout>
       </React.Fragment>
