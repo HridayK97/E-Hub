@@ -80,7 +80,7 @@ class MarketView extends React.Component {
               <Col xs={24}>
                 <Default>
                   <h1 style={{ fontSize: '50px', textAlign: 'center' }}>Welcome to E-Hub.</h1>
-                  <h3 style={{ fontSize: 32, textAlign: 'center' }}>
+                  <h3 style={{ fontSize: 32, textAlign: 'center', marginTop:'-25px' }}>
                     <i>The one-stop-shop for all your electronic needs.</i>
                   </h3>
                 </Default>
@@ -104,8 +104,9 @@ class MarketView extends React.Component {
               <Mobile>
                 <Col style={{ marginTop: 10 }} xs={24}>
                   <Button
+                    block
                     onClick={this.goToMarket}
-                    style={{ display: 'block', margin: 'auto' }}
+                    style={{ display: 'block', margin: 'auto',fontSize: 30, height:'auto' }}
                     type="primary"
                     icon="appstore"
                     size="large"
@@ -113,10 +114,28 @@ class MarketView extends React.Component {
                     Market Place
                   </Button>
                 </Col>
+                <Col style={{ marginTop: 10 }} span={24}>
+                  <p style={{ fontSize: '18px', textAlign: 'center' }}>
+                    Searching for parts to build your project?
+                    <br />
+                    Or finding a way to sell off unwanted parts?
+                    <br />
+                    <br />
+                    The E-Hub Marketplace allows you to,
+                    <br />
+                  </p>
+
+                  <p style={{ fontSize: '18px', textAlign: 'left' }}>
+                    1. <b>Buy</b> parts to carry out your project work,
+                    <br />
+                    2. <b>Sell</b> or <b>Rent</b> parts that you have but might not need.
+                  </p>
+                </Col>
                 <Col style={{ marginTop: 10 }} xs={24}>
                   <Button
+                    block
                     onClick={this.goToForums}
-                    style={{ display: 'block', margin: 'auto' }}
+                    style={{ display: 'block', margin: 'auto', fontSize: 30, height:'auto'  }}
                     type="primary"
                     icon="team"
                     size="large"
@@ -124,10 +143,27 @@ class MarketView extends React.Component {
                     Project Forums
                   </Button>
                 </Col>
+                <Col style={{ marginTop: 10 }} span={24}>
+                  <p style={{ fontSize: '18px', textAlign: 'center' }}>
+                    Can't seem to find people to work with?
+                    <br />
+                    Looking for guidance on a certain project you need help with?
+                    <br />
+                    <br />
+                    The E-Hub Forums let you,
+                    <br />
+                  </p>
+
+                  <p style={{ fontSize: '18px', textAlign: 'left' }}>
+                    1. <b>Meet</b> people with similar project interests to work together,
+                    <br />
+                    2. <b>Learn</b> those who have already carried out those projects.
+                  </p>
+                </Col>
               </Mobile>
 
               <Default>
-                <Col style={{ marginTop: 10, padding:15 }} md={12}>
+                <Col style={{ marginTop: 10, padding: 15 }} md={12}>
                   <Row type="flex" justify="center">
                     <Col span={24}>
                       <Button
@@ -144,7 +180,7 @@ class MarketView extends React.Component {
                         icon="appstore"
                         size="large"
                       >
-                      Market Place
+                        Market Place
                         <Col style={{ marginTop: 10 }} span={24}>
                           <p style={{ fontSize: '18px', textAlign: 'center' }}>
                             Searching for parts to build your project?
@@ -166,7 +202,7 @@ class MarketView extends React.Component {
                     </Col>
                   </Row>
                 </Col>
-                <Col style={{ marginTop: 10, padding:15 }} md={12}>
+                <Col style={{ marginTop: 10, padding: 15 }} md={12}>
                   <Row type="flex" justify="center">
                     <Col span={24}>
                       <Button
@@ -186,7 +222,7 @@ class MarketView extends React.Component {
                         Project Forums
                         <Col style={{ marginTop: 10 }} span={24}>
                           <p style={{ fontSize: '18px', textAlign: 'center' }}>
-                          Can't seem to find people to work with?
+                            Can't seem to find people to work with?
                             <br />
                             Looking for guidance on a certain project you need help with?
                             <br />
@@ -196,20 +232,10 @@ class MarketView extends React.Component {
                           </p>
 
                           <p style={{ fontSize: '18px', textAlign: 'left' }}>
-                            
-
-                            1. <b>Meet</b> people with similar project interests to work together, 
-                            <br/>
-2. <b>Learn</b> those who have already carried out those projects.
+                            1. <b>Meet</b> people with similar project interests to work together,
+                            <br />
+                            2. <b>Learn</b> those who have already carried out those projects.
                           </p>
-
-
-                          
-
-
-
-
-
                         </Col>
                       </Button>
                     </Col>
