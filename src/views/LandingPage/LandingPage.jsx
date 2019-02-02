@@ -79,20 +79,25 @@ class MarketView extends React.Component {
             <Row type="flex" justify="center" align="middle">
               <Col xs={24}>
                 <Default>
-                  <h1 style={{ fontSize: '50px', textAlign: 'center' }}>
-                    Welcome to E-Hub. Get started.
-                  </h1>
+                  <h1 style={{ fontSize: '50px', textAlign: 'center' }}>Welcome to E-Hub.</h1>
+                  <h3 style={{ fontSize: 32, textAlign: 'center' }}>
+                    <i>The one-stop-shop for all your electronic needs.</i>
+                  </h3>
                 </Default>
                 <Mobile>
-                  <h1 style={{ textAlign: 'center' }}>Welcome to E-Hub. Get started.</h1>
+                  <h1 style={{ textAlign: 'center' }}>Welcome to E-Hub.</h1>
+                  <h2 style={{ textAlign: 'center' }}>
+                    <i>The one-stop-shop for all your electronic needs.</i>
+                  </h2>
                 </Mobile>
               </Col>
               <Col xs={24} md={12}>
-                <span style={{ fontSize: '20px', textAlign: 'left' }}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </span>
+                <p style={{ fontSize: '20px', textAlign: 'center' }}>
+                  E-Hub is divided into two halves, each allowing you to explore the field of
+                  electronics easily while getting the parts and guidance you need. <br />
+                  <br />
+                  Explore and have fun!
+                </p>
               </Col>
             </Row>
             <Row type="flex" justify="center">
@@ -122,27 +127,93 @@ class MarketView extends React.Component {
               </Mobile>
 
               <Default>
-                <Col style={{ marginTop: 50 }} md={12}>
-                  <Button
-                    onClick={this.goToMarket}
-                    style={{ height: 80, fontSize: 30, float: 'right', marginRight: 40 }}
-                    type="primary"
-                    icon="appstore"
-                    size="large"
-                  >
-                    Market Place
-                  </Button>
+                <Col style={{ marginTop: 10, padding:15 }} md={12}>
+                  <Row type="flex" justify="center">
+                    <Col span={24}>
+                      <Button
+                        block
+                        onClick={this.goToMarkets}
+                        style={{
+                          display: 'block',
+                          margin: 'auto',
+                          height: 'auto',
+                          fontSize: 35,
+                          paddingTop: 10
+                        }}
+                        type="primary"
+                        icon="appstore"
+                        size="large"
+                      >
+                      Market Place
+                        <Col style={{ marginTop: 10 }} span={24}>
+                          <p style={{ fontSize: '18px', textAlign: 'center' }}>
+                            Searching for parts to build your project?
+                            <br />
+                            Or finding a way to sell off unwanted parts?
+                            <br />
+                            <br />
+                            The E-Hub Marketplace allows you to,
+                            <br />
+                          </p>
+
+                          <p style={{ fontSize: '18px', textAlign: 'left' }}>
+                            1. <b>Buy</b> parts to carry out your project work,
+                            <br />
+                            2. <b>Sell</b> or <b>Rent</b> parts that you have but might not need.
+                          </p>
+                        </Col>
+                      </Button>
+                    </Col>
+                  </Row>
                 </Col>
-                <Col style={{ marginTop: 50 }} md={12}>
-                  <Button
-                    onClick={this.goToForums}
-                    style={{ height: 80, fontSize: 30, float: 'left', marginLeft: 40 }}
-                    type="primary"
-                    icon="team"
-                    size="large"
-                  >
-                    Project Forums
-                  </Button>
+                <Col style={{ marginTop: 10, padding:15 }} md={12}>
+                  <Row type="flex" justify="center">
+                    <Col span={24}>
+                      <Button
+                        block
+                        onClick={this.goToForums}
+                        style={{
+                          display: 'block',
+                          margin: 'auto',
+                          height: 'auto',
+                          fontSize: 35,
+                          paddingTop: 10
+                        }}
+                        type="primary"
+                        icon="team"
+                        size="large"
+                      >
+                        Project Forums
+                        <Col style={{ marginTop: 10 }} span={24}>
+                          <p style={{ fontSize: '18px', textAlign: 'center' }}>
+                          Can't seem to find people to work with?
+                            <br />
+                            Looking for guidance on a certain project you need help with?
+                            <br />
+                            <br />
+                            The E-Hub Forums let you,
+                            <br />
+                          </p>
+
+                          <p style={{ fontSize: '18px', textAlign: 'left' }}>
+                            
+
+                            1. <b>Meet</b> people with similar project interests to work together, 
+                            <br/>
+2. <b>Learn</b> those who have already carried out those projects.
+                          </p>
+
+
+                          
+
+
+
+
+
+                        </Col>
+                      </Button>
+                    </Col>
+                  </Row>
                 </Col>
               </Default>
             </Row>
