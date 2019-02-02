@@ -96,7 +96,11 @@ class MainPage extends React.Component {
             style={{ lineHeight: '64px' }}
           >
             <Menu.Item key="0">
-              <a href="/main/landing">
+              <a
+                onClick={() => {
+                  this.props.history.push('/main/landing');
+                }}
+              >
                 <img
                   style={{
                     height: 60,
@@ -118,7 +122,6 @@ class MainPage extends React.Component {
             <Menu.Item key="5">
               <Link to="/main/forums">Project Forums</Link>
             </Menu.Item>
-            
 
             <Menu.Item onClick={this.logout} style={{ float: 'right' }} key="4">
               Logout
@@ -137,7 +140,9 @@ class MainPage extends React.Component {
             })}
           </Switch>
         </Content>
-        <Footer style={{ backgroundColor:'#001529',textAlign: 'center' }}><span style={{color:'#fff'}}>© E-Hub Venture by Philip Mathew and Hriday Kaju</span></Footer>
+        <Footer style={{ backgroundColor: '#001529', textAlign: 'center' }}>
+          <span style={{ color: '#fff' }}>© E-Hub Venture by Philip Mathew and Hriday Kaju</span>
+        </Footer>
       </Layout>
     );
   }
@@ -155,7 +160,9 @@ class MainPage extends React.Component {
             style={{ lineHeight: '64px' }}
           >
             <Menu.Item key="0">
-              <a href="/main/landing">
+              <a onClick={() => {
+                this.props.history.push('/main/landing');
+              }}>
                 <img
                   style={{
                     height: 60,
@@ -176,9 +183,7 @@ class MainPage extends React.Component {
             <Menu.Item key="5">
               <Link to="/main/forums">Forums</Link>
             </Menu.Item>
-            
 
-            
             <Menu.Item key="3">
               <Link to="/main/account">My Account</Link>
             </Menu.Item>
@@ -195,8 +200,9 @@ class MainPage extends React.Component {
             })}
           </Switch>
         </Content>
-        <Footer style={{ backgroundColor:'#001529',textAlign: 'center' }}><span style={{color:'#fff'}}>© E-Hub Venture by Philip Mathew and Hriday Kaju</span></Footer>
-      
+        <Footer style={{ backgroundColor: '#001529', textAlign: 'center' }}>
+          <span style={{ color: '#fff' }}>© E-Hub Venture by Philip Mathew and Hriday Kaju</span>
+        </Footer>
       </Layout>
     );
   }
