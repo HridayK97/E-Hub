@@ -31,10 +31,20 @@ class MarketView extends React.Component {
       nameStatus: 'success',
       numberStatus: 'success'
     };
+    this.goToMarket = this.goToMarket.bind(this);
+    this.goToForums = this.goToForums.bind(this);
   }
 
   componentDidMount() {
     this.props.setSelectedTab([]);
+  }
+
+  goToMarket() {
+    this.props.history.push('/main/market');
+  }
+
+  goToForums() {
+    this.props.history.push('/main/forums');
   }
 
   defaultContent() {
@@ -89,6 +99,7 @@ class MarketView extends React.Component {
               <Mobile>
                 <Col style={{ marginTop: 10 }} xs={24}>
                   <Button
+                    onClick={this.goToMarket}
                     style={{ display: 'block', margin: 'auto' }}
                     type="primary"
                     icon="appstore"
@@ -99,6 +110,7 @@ class MarketView extends React.Component {
                 </Col>
                 <Col style={{ marginTop: 10 }} xs={24}>
                   <Button
+                    onClick={this.goToForums}
                     style={{ display: 'block', margin: 'auto' }}
                     type="primary"
                     icon="team"
@@ -112,7 +124,8 @@ class MarketView extends React.Component {
               <Default>
                 <Col style={{ marginTop: 50 }} md={12}>
                   <Button
-                    style={{ height: 80, fontSize: 30, float:'right', marginRight:40 }}
+                    onClick={this.goToMarket}
+                    style={{ height: 80, fontSize: 30, float: 'right', marginRight: 40 }}
                     type="primary"
                     icon="appstore"
                     size="large"
@@ -122,7 +135,8 @@ class MarketView extends React.Component {
                 </Col>
                 <Col style={{ marginTop: 50 }} md={12}>
                   <Button
-                    style={{ height: 80, fontSize: 30, float:'left',marginLeft:40 }}
+                    onClick={this.goToForums}
+                    style={{ height: 80, fontSize: 30, float: 'left', marginLeft: 40 }}
                     type="primary"
                     icon="team"
                     size="large"
