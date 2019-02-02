@@ -64,11 +64,12 @@ class MarketView extends React.Component {
           <Content style={{ padding: '0 24px', minHeight: '100vh' }}>
             <Row type="flex" justify="center" align="middle">
               <Col span={24}>
-                <h1>Project Forums</h1>
-                <Col xs={24} md={12}>
-                  <span style={{ fontSize: '20px', textAlign: 'left' }}>Coming Soon!</span>
-                </Col>
+                <h1 style={{ fontSize:35,textAlign:'center'}}>Project Forums</h1>
+                
               </Col>
+              <Col xs={24} md={24}>
+                  <p style={{ fontSize: '25px', textAlign: 'center' }}>Coming Soon!</p>
+                </Col>
             </Row>
           </Content>
         </Layout>
