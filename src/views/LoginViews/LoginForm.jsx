@@ -55,7 +55,7 @@ class LoginForm extends React.Component {
         .doc(uid)
         .set({ uid, name, number, email })
         .then(() => {
-          console.log('SUCCESS ADDED');
+          // console.log('SUCCESS ADDED');
           this.props.history.push('/main');
         });
     }

@@ -14,7 +14,6 @@ const mainRoutes = [
   { path: '/main/account', key: '3', name: 'MyAccount', component: AccountView },
   { path: '/main/forums', key: '6', name: 'Sell', component: ProjectForumsMain },
   { path: '/main/landing', key: '5', name: 'Landing', component: LandingPage },
-  
   {
     redirect: true,
     path: '/main',
