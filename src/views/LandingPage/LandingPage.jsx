@@ -74,7 +74,7 @@ class MarketView extends React.Component {
                   <Button
                     block
                     onClick={this.goToMarket}
-                    style={{ display: 'block', margin: 'auto', fontSize: 30, height: 'auto' }}
+                    style={{ display: 'block', margin: 'auto', fontSize: 30, height: '70px' }}
                     type="primary"
                     icon="appstore"
                     size="large"
@@ -103,7 +103,7 @@ class MarketView extends React.Component {
                   <Button
                     block
                     onClick={this.goToForums}
-                    style={{ display: 'block', margin: 'auto', fontSize: 30, height: 'auto' }}
+                    style={{ display: 'block', margin: 'auto', fontSize: 30, height: '70px' }}
                     type="primary"
                     icon="team"
                     size="large"

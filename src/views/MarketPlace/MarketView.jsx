@@ -162,14 +162,8 @@ class MarketView extends React.Component {
     // console.log(this.state.selectedItems);
     return (
       <React.Fragment>
-        <Row style={{ marginTop: '16px', background: '#fff' }}>
-          <Col span={24}>
-            <h1 style={{ textAlign: 'center' }}>Market Place</h1>
-          </Col>
-        </Row>
-
-        <Layout style={{ marginBottom: '16px', paddingBottom: '24px', background: '#fff' }}>
-          <Sider width={200} style={{ background: '#fff' }}>
+        <Layout style={{ margin: '16px 0', padding: '24px 0', background: '#fff' }}>
+          <Sider width={200} style={{ padding: 10, background: '#fff' }}>
             <Menu
               onClick={this.onSelectCategoryMenu}
               mode="inline"
@@ -190,7 +184,7 @@ class MarketView extends React.Component {
             </Menu>
           </Sider>
           <Content style={{ padding: '0 24px', minHeight: 280 }}>
-            <Row style={{ padding: '10px 0px' }}>
+            <Row style={{ padding: '10px 5px' }}>
               <h2>{this.state.selectedCategory}</h2>
               {this.state.allSelected ? null : (
                 <Col xs={24} sm={16} md={8}>
@@ -264,12 +258,7 @@ class MarketView extends React.Component {
     return (
       <React.Fragment>
         <Layout style={{ padding: '0 0', background: '#fff' }}>
-          <Row style={{ background: '#fff' }}>
-            <Col span={24}>
-              <h1 style={{ textAlign: 'center' }}>Market Place</h1>
-            </Col>
-          </Row>
-          <Row style={{ paddingBottom: '10px' }}>
+          <Row style={{ padding: '10px 0' }}>
             <Select
               style={{ width: '100%' }}
               placeholder="Select Category"
