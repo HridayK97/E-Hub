@@ -38,7 +38,7 @@ class MarketView extends React.Component {
   getAccountDetails() {
     const { uid } = this.props;
 
-    console.log(uid);
+    // console.log(uid);
     db.collection('Users')
       .doc(uid)
       .get()
