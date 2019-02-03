@@ -168,7 +168,7 @@ class MarketView extends React.Component {
                     <Col span={24}>
                       <Button
                         block
-                        onClick={this.goToMarkets}
+                        onClick={this.goToMarket}
                         style={{
                           display: 'block',
                           margin: 'auto',
