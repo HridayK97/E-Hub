@@ -162,8 +162,8 @@ class MarketView extends React.Component {
     // console.log(this.state.selectedItems);
     return (
       <React.Fragment>
-        <Layout style={{ margin: '16px 0', padding: '24px 0', background: '#fff' }}>
-          <Sider width={200} style={{ padding: 10, background: '#fff' }}>
+        <Layout style={{ margin: '16px 0', padding: '12px 0', background: '#fff' }}>
+          <Sider width={200} style={{ background: '#fff' }}>
             <Menu
               onClick={this.onSelectCategoryMenu}
               mode="inline"

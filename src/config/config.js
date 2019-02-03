@@ -8,6 +8,16 @@ require('firebase/firestore');
 
 let config = {};
 
+//  Production
+config = {
+  apiKey: 'AIzaSyDLOfeK390rHI9hqSxY0Fe0gFawmtQKTgw',
+  authDomain: 'e-hub-production.firebaseapp.com',
+  databaseURL: 'https://e-hub-production.firebaseio.com',
+  projectId: 'e-hub-production',
+  storageBucket: 'e-hub-production.appspot.com',
+  messagingSenderId: '519238073753'
+};
+
 // Staging
 config = {
   apiKey: 'AIzaSyDPZcfQFsk_Zztkbz5jNGMu-n8JStkOuaQ',
@@ -18,7 +28,6 @@ config = {
   messagingSenderId: '714269492493'
 };
 
-//  Production
 // config = {
 //   apiKey: process.env.REACT_APP_FIREBASE_KEY,
 //   authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
