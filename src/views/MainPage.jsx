@@ -132,9 +132,15 @@ class MainPage extends React.Component {
                 <Link to="/main/sell">Sell</Link>
               </Menu.Item>
             </SubMenu>
-            <Menu.Item key="5">
-              <Link to="/main/forums">Project Forums</Link>
-            </Menu.Item>
+
+            <SubMenu title={<span className="submenu-title-wrapper">Project Forums</span>}>
+              <Menu.Item key="5">
+                <Link to="/main/forums">All Forums</Link>
+              </Menu.Item>
+              <Menu.Item key="7">
+                <Link to="/main/forums">My Forums</Link>
+              </Menu.Item>
+            </SubMenu>
             {this.props.userDetails.isAdmin && (
               <Menu.Item key="6">
                 <Link to="/main/admin">Admin</Link>
@@ -193,7 +199,7 @@ class MainPage extends React.Component {
                 />
               </a>
             </Menu.Item>
-            <SubMenu title={<span className="submenu-title-wrapper">Market Place</span>}>
+            <SubMenu title={<span className="submenu-title-wrapper">Market</span>}>
               <Menu.Item key="1">
                 <Link to="/main/market">Buy</Link>
               </Menu.Item>
@@ -201,9 +207,15 @@ class MainPage extends React.Component {
                 <Link to="/main/sell">Sell</Link>
               </Menu.Item>
             </SubMenu>
-            <Menu.Item key="5">
-              <Link to="/main/forums">Forums</Link>
-            </Menu.Item>
+
+            <SubMenu title={<span className="submenu-title-wrapper">Forums</span>}>
+              <Menu.Item key="5">
+                <Link to="/main/forums">All Forums</Link>
+              </Menu.Item>
+              <Menu.Item key="7">
+                <Link to="/main/forums">My Forums</Link>
+              </Menu.Item>
+            </SubMenu>
 
             <Menu.Item key="3">
               <Link to="/main/account">My Account</Link>
