@@ -5,9 +5,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
 import Responsive from 'react-responsive';
-import { Layout, Row, Col, Spin, Breadcrumb, Form, Input, Button, message } from 'antd';
+import { Layout, Row, Col, Breadcrumb, Button } from 'antd';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
-import firebase from '../../config/config';
 
 const Mobile = props => <Responsive {...props} maxWidth={767} />;
 const Default = props => <Responsive {...props} minWidth={768} />;
@@ -18,18 +17,11 @@ const Default = props => <Responsive {...props} minWidth={768} />;
 // } from 'react-landing-page'
 const { Content } = Layout;
 
-//  Initalize firestore reference
-const db = firebase.firestore();
-
 class MarketView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       // mainLoading: false,
-      submitLoading: false,
-      isEditing: false,
-      nameStatus: 'success',
-      numberStatus: 'success'
     };
     this.goToMarket = this.goToMarket.bind(this);
     this.goToForums = this.goToForums.bind(this);
@@ -48,30 +40,6 @@ class MarketView extends React.Component {
   }
 
   defaultContent() {
-    const { nameStatus, numberStatus, name, number, submitLoading } = this.state;
-
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 }
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 }
-      }
-    };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0
-        },
-        sm: {
-          span: 16,
-          offset: 8
-        }
-      }
-    };
     return (
       <React.Fragment>
         <Layout style={{ margin: '16px 0', padding: '24px 0', background: '#fff' }}>
@@ -80,7 +48,7 @@ class MarketView extends React.Component {
               <Col xs={24}>
                 <Default>
                   <h1 style={{ fontSize: '50px', textAlign: 'center' }}>Welcome to E-Hub.</h1>
-                  <h3 style={{ fontSize: 32, textAlign: 'center', marginTop:'-25px' }}>
+                  <h3 style={{ fontSize: 32, textAlign: 'center', marginTop: '-25px' }}>
                     <i>The one-stop-shop for all your electronic needs.</i>
                   </h3>
                 </Default>
@@ -106,7 +74,7 @@ class MarketView extends React.Component {
                   <Button
                     block
                     onClick={this.goToMarket}
-                    style={{ display: 'block', margin: 'auto',fontSize: 30, height:'auto' }}
+                    style={{ display: 'block', margin: 'auto', fontSize: 30, height: 'auto' }}
                     type="primary"
                     icon="appstore"
                     size="large"
@@ -135,7 +103,7 @@ class MarketView extends React.Component {
                   <Button
                     block
                     onClick={this.goToForums}
-                    style={{ display: 'block', margin: 'auto', fontSize: 30, height:'auto'  }}
+                    style={{ display: 'block', margin: 'auto', fontSize: 30, height: 'auto' }}
                     type="primary"
                     icon="team"
                     size="large"

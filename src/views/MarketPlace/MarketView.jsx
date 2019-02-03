@@ -94,7 +94,7 @@ class MarketView extends React.Component {
   }
 
   onSelectCategoryMenu(data) {
-    const { item, key, keyPath } = data;
+    const { key } = data;
     // console.log(item, key, keyPath);
     const { items, categories } = this.props;
 
@@ -141,7 +141,7 @@ class MarketView extends React.Component {
         selectedItems,
         allSelected: false,
         subcategories,
-        subcategoriesValue: [],
+        // subcategoriesValue: [],
         selectedCategoryItems: selectedItems
       });
     }
@@ -162,14 +162,13 @@ class MarketView extends React.Component {
     // console.log(this.state.selectedItems);
     return (
       <React.Fragment>
-      <Row style={{  marginTop: '16px', background: '#fff' }}>
-      <Col span={24}>
-        <h1 style={{textAlign:'center'}}>Market Place</h1>
-      </Col>
-      </Row>
-      
+        <Row style={{ marginTop: '16px', background: '#fff' }}>
+          <Col span={24}>
+            <h1 style={{ textAlign: 'center' }}>Market Place</h1>
+          </Col>
+        </Row>
+
         <Layout style={{ marginBottom: '16px', paddingBottom: '24px', background: '#fff' }}>
-       
           <Sider width={200} style={{ background: '#fff' }}>
             <Menu
               onClick={this.onSelectCategoryMenu}
@@ -265,11 +264,11 @@ class MarketView extends React.Component {
     return (
       <React.Fragment>
         <Layout style={{ padding: '0 0', background: '#fff' }}>
-        <Row style={{ background: '#fff' }}>
-      <Col span={24}>
-        <h1 style={{textAlign:'center'}}>Market Place</h1>
-      </Col>
-      </Row>
+          <Row style={{ background: '#fff' }}>
+            <Col span={24}>
+              <h1 style={{ textAlign: 'center' }}>Market Place</h1>
+            </Col>
+          </Row>
           <Row style={{ paddingBottom: '10px' }}>
             <Select
               style={{ width: '100%' }}
