@@ -16,6 +16,8 @@ const Mobile = props => <Responsive {...props} maxWidth={767} />;
 const Default = props => <Responsive {...props} minWidth={768} />;
 
 const { Header, Content, Footer } = Layout;
+const SubMenu = Menu.SubMenu;
+const MenuItemGroup = Menu.ItemGroup;
 
 //  Initalize firestore reference
 const db = firebase.firestore();
@@ -94,7 +96,11 @@ class MainPage extends React.Component {
             style={{ lineHeight: '64px' }}
           >
             <Menu.Item key="0">
-              <a href="/main/market">
+              <a
+                onClick={() => {
+                  this.props.history.push('/main/landing');
+                }}
+              >
                 <img
                   style={{
                     height: 60,
@@ -105,18 +111,23 @@ class MainPage extends React.Component {
               </a>
             </Menu.Item>
 
-            <Menu.Item key="1">
-              <Link to="/main/market">Buy</Link>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Link to="/main/sell">Sell</Link>
-            </Menu.Item>
-            <Menu.Item key="3">
-              <Link to="/main/account">My Account</Link>
+            <SubMenu title={<span className="submenu-title-wrapper">Market Place</span>}>
+              <Menu.Item key="1">
+                <Link to="/main/market">Buy</Link>
+              </Menu.Item>
+              <Menu.Item key="2">
+                <Link to="/main/sell">Sell</Link>
+              </Menu.Item>
+            </SubMenu>
+            <Menu.Item key="5">
+              <Link to="/main/forums">Project Forums</Link>
             </Menu.Item>
 
             <Menu.Item onClick={this.logout} style={{ float: 'right' }} key="4">
               Logout
+            </Menu.Item>
+            <Menu.Item style={{ float: 'right' }} key="3">
+              <Link to="/main/account">My Account</Link>
             </Menu.Item>
           </Menu>
         </Header>
@@ -129,7 +140,9 @@ class MainPage extends React.Component {
             })}
           </Switch>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>E-Hub Footer</Footer>
+        <Footer style={{ backgroundColor: '#001529', textAlign: 'center' }}>
+          <span style={{ color: '#fff' }}>© E-Hub Venture by Philip Mathew and Hriday Kaju</span>
+        </Footer>
       </Layout>
     );
   }
@@ -147,7 +160,9 @@ class MainPage extends React.Component {
             style={{ lineHeight: '64px' }}
           >
             <Menu.Item key="0">
-              <a href="/main/market">
+              <a onClick={() => {
+                this.props.history.push('/main/landing');
+              }}>
                 <img
                   style={{
                     height: 60,
@@ -157,16 +172,21 @@ class MainPage extends React.Component {
                 />
               </a>
             </Menu.Item>
-            <Menu.Item key="1">
-              <Link to="/main/market">Market</Link>
+            <SubMenu title={<span className="submenu-title-wrapper">Market Place</span>}>
+              <Menu.Item key="1">
+                <Link to="/main/market">Buy</Link>
+              </Menu.Item>
+              <Menu.Item key="2">
+                <Link to="/main/sell">Sell</Link>
+              </Menu.Item>
+            </SubMenu>
+            <Menu.Item key="5">
+              <Link to="/main/forums">Forums</Link>
             </Menu.Item>
-            <Menu.Item key="2">
-              <Link to="/main/sell">Sell</Link>
-            </Menu.Item>
+
             <Menu.Item key="3">
               <Link to="/main/account">My Account</Link>
             </Menu.Item>
-
             <Menu.Item onClick={this.logout} key="4">
               Logout
             </Menu.Item>
@@ -180,7 +200,9 @@ class MainPage extends React.Component {
             })}
           </Switch>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>E-Hub Footer</Footer>
+        <Footer style={{ backgroundColor: '#001529', textAlign: 'center' }}>
+          <span style={{ color: '#fff' }}>© E-Hub Venture by Philip Mathew and Hriday Kaju</span>
+        </Footer>
       </Layout>
     );
   }
