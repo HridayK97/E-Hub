@@ -15,6 +15,19 @@ const Default = props => <Responsive {...props} minWidth={768} />;
 const { Content, Sider } = Layout;
 const { Meta } = Card;
 const { Option } = Select;
+const categoryIcons = {
+  'Consumer Electronics': 'laptop',
+  Displays: 'desktop',
+  Microcontrollers: 'deployment-unit',
+  Modules: 'gateway',
+  Motors: 'heat-map',
+  'Power Sources': 'thunderbolt',
+  'Raspberry Pi': 'hdd',
+  Relays: 'sliders',
+  Sensors: 'bulb',
+  Tools: 'tool',
+  Miscellaneous: 'exception'
+};
 
 //  Initalize firestore reference
 const db = firebase.firestore();
@@ -148,7 +161,14 @@ class MarketView extends React.Component {
     // console.log(this.state.selectedItems);
     return (
       <React.Fragment>
-        <Layout style={{ margin: '16px 0', padding: '24px 0', background: '#fff' }}>
+      <Row style={{  marginTop: '16px', background: '#fff' }}>
+      <Col span={24}>
+        <h1 style={{textAlign:'center'}}>Market Place</h1>
+      </Col>
+      </Row>
+      
+        <Layout style={{ marginBottom: '16px', paddingBottom: '24px', background: '#fff' }}>
+       
           <Sider width={200} style={{ background: '#fff' }}>
             <Menu
               onClick={this.onSelectCategoryMenu}
@@ -163,7 +183,7 @@ class MarketView extends React.Component {
               </Menu.Item>
               {this.state.categories.map(category => (
                 <Menu.Item key={category}>
-                  <Icon type="pie-chart" />
+                  <Icon type={categoryIcons[category] || 'pie-chart'} />
                   <span>{category}</span>
                 </Menu.Item>
               ))}
@@ -244,7 +264,12 @@ class MarketView extends React.Component {
     return (
       <React.Fragment>
         <Layout style={{ padding: '0 0', background: '#fff' }}>
-          <Row style={{ padding: '10px 0px' }}>
+        <Row style={{ background: '#fff' }}>
+      <Col span={24}>
+        <h1 style={{textAlign:'center'}}>Market Place</h1>
+      </Col>
+      </Row>
+          <Row style={{ paddingBottom: '10px' }}>
             <Select
               style={{ width: '100%' }}
               placeholder="Select Category"
