@@ -147,7 +147,7 @@ class MarketView extends React.Component {
                   <p style={{ fontSize: '18px', textAlign: 'center' }}>
                     Can't seem to find people to work with?
                     <br />
-                    Looking for guidance on a certain project you need help with?
+                    Looking for guidance on a certain project?
                     <br />
                     <br />
                     The E-Hub Forums let you,
@@ -224,7 +224,7 @@ class MarketView extends React.Component {
                           <p style={{ fontSize: '18px', textAlign: 'center' }}>
                             Can't seem to find people to work with?
                             <br />
-                            Looking for guidance on a certain project you need help with?
+                            Looking for guidance on a certain project?
                             <br />
                             <br />
                             The E-Hub Forums let you,

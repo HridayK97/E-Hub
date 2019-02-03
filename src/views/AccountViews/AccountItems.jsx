@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { Layout, Row, Col, Spin, Table, Divider, message, Modal } from 'antd';
+import { Layout, Row, Col, Spin, Table, Divider, message, Modal, Icon, Tooltip  } from 'antd';
 import Responsive from 'react-responsive';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
 import firebase from '../../config/config';
@@ -70,6 +70,20 @@ class AccountItems extends React.Component {
 
   defaultContent() {
     const columns = [
+      {
+        title: '',
+        key: 'status',
+        render: (text, record) => (
+          <React.Fragment>
+          {record.status==='pending'&&<Tooltip title="Pending">
+          <Icon type="clock-circle" theme="outlined" />
+        </Tooltip>}
+          {record.status==='approved'&&<Tooltip title="Approved"><Icon type="check-circle" theme="twoTone" /> </Tooltip>}
+          {record.status==='rejected'&&<Icon type="star" theme="twoTone" />}
+          </React.Fragment>
+          
+        )
+      },
       {
         title: 'Item Name',
         dataIndex: 'itemName',
