@@ -1,4 +1,10 @@
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
+const firebase = require('firebase/app');
+
+// Add additional services that you want to use
+require('firebase/auth');
+require('firebase/storage');
+require('firebase/firestore');
 
 let config = {};
 
@@ -23,8 +29,8 @@ config = {
 // };
 
 firebase.initializeApp(config);
-const firestore = firebase.firestore();
-firestore.settings({
-  timestampsInSnapshots: true
-});
+// const firestore = firebase.firestore();
+// firestore.settings({
+
+// });
 export default firebase;
