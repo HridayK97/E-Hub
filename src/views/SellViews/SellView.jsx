@@ -257,7 +257,8 @@ class MarketView extends React.Component {
           rentPrice,
           category: category[0],
           subcategory: category[1] ? category[1] : '', // In the case of miscellaneous, there is no subcategory
-          createdAt: new Date()
+          createdAt: new Date(),
+          status:'pending'
         })
         .then(doc => {
           db.collection('Items')
@@ -266,7 +267,7 @@ class MarketView extends React.Component {
             .then(() => {
               this.uploadImage(doc.id, file).then(() => {
                 this.setState({ submitLoading: false });
-                message.success('Submitted successfully.');
+                message.success('Submitted successfully. Your item will be approved soon.');
                 this.clearForm();
               });
             });
