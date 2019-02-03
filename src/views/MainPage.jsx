@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Redirect, Switch, Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { Layout, Row, Spin, Menu, Avatar } from 'antd';
+import { Layout, Row, Spin, Menu, Avatar, Modal } from 'antd';
 import Responsive from 'react-responsive';
 import { setUserDetails, setCategories } from '../reducers/main';
 import AdminPage from './Admin/AdminPage';
@@ -17,6 +17,7 @@ const Mobile = props => <Responsive {...props} maxWidth={767} />;
 const Default = props => <Responsive {...props} minWidth={768} />;
 
 const { Header, Content, Footer } = Layout;
+const { confirm } = Modal;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
@@ -75,16 +76,26 @@ class MainPage extends React.Component {
   }
 
   logout() {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        // Sign-out successful.
-        this.props.history.push('/login');
-      })
-      .catch(() => {
-        // An error happened.
-      });
+    confirm({
+      title: 'Are you sure you want to logout?',
+      content: '',
+      onOk: () =>
+        new Promise(resolve =>
+          // setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+          firebase
+            .auth()
+            .signOut()
+            .then(() => {
+              // Sign-out successful.
+              resolve();
+              this.props.history.push('/login');
+            })
+            .catch(() => {
+              // An error happened.
+            })
+        ),
+      onCancel() {}
+    });
   }
 
   defaultContent() {
@@ -141,7 +152,7 @@ class MainPage extends React.Component {
         </Header>
         <Content style={{ padding: '0 50px' }}>
           <Switch>
-          {this.props.userDetails.isAdmin && <Route path={'/main/admin'} component={AdminPage} />}
+            {this.props.userDetails.isAdmin && <Route path={'/main/admin'} component={AdminPage} />}
             {mainRoutes.map((route, key) => {
               if (route.redirect) return <Redirect from={route.path} to={route.pathTo} key={key} />;
 
@@ -150,7 +161,7 @@ class MainPage extends React.Component {
           </Switch>
         </Content>
         <Footer style={{ backgroundColor: '#001529', textAlign: 'center' }}>
-          <span style={{ color: '#fff' }}>E-Hub ©  Venture by Philip Mathew and Hriday Kaju</span>
+          <span style={{ color: '#fff' }}>E-Hub © Venture by Philip Mathew and Hriday Kaju</span>
         </Footer>
       </Layout>
     );
@@ -194,7 +205,6 @@ class MainPage extends React.Component {
             <Menu.Item key="5">
               <Link to="/main/forums">Forums</Link>
             </Menu.Item>
-            
 
             <Menu.Item key="3">
               <Link to="/main/account">My Account</Link>
@@ -206,8 +216,6 @@ class MainPage extends React.Component {
         </Header>
         <Content style={{ padding: '0 5px' }}>
           <Switch>
-            
-
             {mainRoutes.map((route, key) => {
               if (route.redirect) return <Redirect from={route.path} to={route.pathTo} key={key} />;
               return <Route path={route.path} component={route.component} />;
@@ -215,7 +223,7 @@ class MainPage extends React.Component {
           </Switch>
         </Content>
         <Footer style={{ backgroundColor: '#001529', textAlign: 'center' }}>
-          <span style={{ color: '#fff' }}>E-Hub ©  Venture by Philip Mathew and Hriday Kaju</span>
+          <span style={{ color: '#fff' }}>E-Hub © Venture by Philip Mathew and Hriday Kaju</span>
         </Footer>
       </Layout>
     );
