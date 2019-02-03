@@ -33,7 +33,7 @@ class MarketView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mainLoading: false,
+      // mainLoading: false,
       submitLoading: false,
       itemName: '',
       itemDescription: '',
@@ -42,13 +42,13 @@ class MarketView extends React.Component {
       rentCheck: false,
       sellPrice: null,
       rentPrice: null,
-      fileList: [],
+      // fileList: [],
       uploadDisabled: false,
       itemNameStatus: 'success',
       itemDescriptionStatus: 'success',
       categoryStatus: 'success',
-      sellPriceStatus: 'success',
-      rentPriceStatus: 'success',
+      // sellPriceStatus: 'success',
+      // rentPriceStatus: 'success',
       sellOptionsStatus: 'success',
       imageStatus: 'success',
       showUpload: true,
@@ -95,7 +95,7 @@ class MarketView extends React.Component {
 
   componentDidMount() {
     this.props.setSelectedTab(['2']);
-    this.setState({ mainLoading: true });
+    // this.setState({ mainLoading: true });
     this.formatCategoriesToOptions();
   }
 
@@ -152,14 +152,14 @@ class MarketView extends React.Component {
       rentCheck: false,
       sellPrice: null,
       rentPrice: null,
-      fileList: [],
+      // fileList: [],
       file: null,
       uploadDisabled: false,
       itemNameStatus: 'success',
       itemDescriptionStatus: 'success',
       categoryStatus: 'success',
-      sellPriceStatus: 'success',
-      rentPriceStatus: 'success',
+      // sellPriceStatus: 'success',
+      // rentPriceStatus: 'success',
       sellOptionsStatus: 'success',
       sellOptionsError: '',
       imageStatus: 'success',
@@ -218,7 +218,7 @@ class MarketView extends React.Component {
           sellOptionsStatus: 'error',
           sellOptionsError: 'Rent price must be lower than sell price.'
         });
-      } else this.setState({ sellOptionsStatus: 'success', sellOptionsError:'' });
+      } else this.setState({ sellOptionsStatus: 'success', sellOptionsError: '' });
     }
 
     if (!file) {
@@ -258,7 +258,7 @@ class MarketView extends React.Component {
           category: category[0],
           subcategory: category[1] ? category[1] : '', // In the case of miscellaneous, there is no subcategory
           createdAt: new Date(),
-          status:'pending'
+          status: 'pending'
         })
         .then(doc => {
           db.collection('Items')

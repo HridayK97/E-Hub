@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { Empty, Layout, Row, Col, Spin, Breadcrumb, Form, Input, Button, message } from 'antd';
+import { Layout, Row, Col, Breadcrumb } from 'antd';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
-import firebase from '../../config/config';
 
 // import { Provider, Heading, Subhead } from 'rebass'
 // import {
@@ -14,18 +13,11 @@ import firebase from '../../config/config';
 // } from 'react-landing-page'
 const { Content } = Layout;
 
-//  Initalize firestore reference
-const db = firebase.firestore();
-
 class MarketView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       // mainLoading: false,
-      submitLoading: false,
-      isEditing: false,
-      nameStatus: 'success',
-      numberStatus: 'success'
     };
   }
 
@@ -34,42 +26,17 @@ class MarketView extends React.Component {
   }
 
   defaultContent() {
-    const { nameStatus, numberStatus, name, number, submitLoading } = this.state;
-
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 }
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 }
-      }
-    };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0
-        },
-        sm: {
-          span: 16,
-          offset: 8
-        }
-      }
-    };
     return (
       <React.Fragment>
         <Layout style={{ margin: '16px 0', padding: '24px 0', background: '#fff' }}>
           <Content style={{ padding: '0 24px', minHeight: '100vh' }}>
             <Row type="flex" justify="center" align="middle">
               <Col span={24}>
-                <h1 style={{ fontSize:35,textAlign:'center'}}>Project Forums</h1>
-                
+                <h1 style={{ fontSize: 35, textAlign: 'center' }}>Project Forums</h1>
               </Col>
               <Col xs={24} md={24}>
-                  <p style={{ fontSize: '25px', textAlign: 'center' }}>Coming Soon!</p>
-                </Col>
+                <p style={{ fontSize: '25px', textAlign: 'center' }}>Coming Soon!</p>
+              </Col>
             </Row>
           </Content>
         </Layout>

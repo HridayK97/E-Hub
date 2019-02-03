@@ -39,7 +39,7 @@ class LoginPage extends React.Component {
         signInSuccessWithAuthResult: authResult => {
           this.setState({ webuiLoading: true });
           const { user } = authResult;
-          console.log(user);
+          // console.log(user);
           db.collection('Users')
             .doc(user.uid)
             .get()
@@ -52,7 +52,7 @@ class LoginPage extends React.Component {
             });
           //  this.setState({showLoginForm:true})
           //  this.saveUserDetailsAndProceed(user);
-          console.log(authResult);
+          // console.log(authResult);
           return false;
         }
       }

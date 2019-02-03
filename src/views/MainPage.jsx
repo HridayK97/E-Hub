@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Redirect, Switch, Route, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { Layout, Row, Spin, Menu, Avatar, Modal } from 'antd';
+import { Layout, Row, Spin, Menu, Modal } from 'antd';
 import Responsive from 'react-responsive';
 import { setUserDetails, setCategories } from '../reducers/main';
 import AdminPage from './Admin/AdminPage';
@@ -18,8 +18,7 @@ const Default = props => <Responsive {...props} minWidth={768} />;
 
 const { Header, Content, Footer } = Layout;
 const { confirm } = Modal;
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
+const { SubMenu } = Menu;
 
 //  Initalize firestore reference
 const db = firebase.firestore();
@@ -152,7 +151,7 @@ class MainPage extends React.Component {
         </Header>
         <Content style={{ padding: '0 50px' }}>
           <Switch>
-            {this.props.userDetails.isAdmin && <Route path={'/main/admin'} component={AdminPage} />}
+            {this.props.userDetails.isAdmin && <Route path="/main/admin" component={AdminPage} />}
             {mainRoutes.map((route, key) => {
               if (route.redirect) return <Redirect from={route.path} to={route.pathTo} key={key} />;
 

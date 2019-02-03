@@ -4,21 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
-import {
-  Empty,
-  Layout,
-  Row,
-  Col,
-  Spin,
-  Breadcrumb,
-  Form,
-  Input,
-  Button,
-  message,
-  Table,
-  Modal,
-  Divider
-} from 'antd';
+import { Layout, Row, Col, Spin, Breadcrumb, message, Table, Modal, Divider } from 'antd';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
 import firebase from '../../config/config';
 
@@ -35,11 +21,6 @@ class MarketView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // mainLoading: false,
-      submitLoading: false,
-      isEditing: false,
-      nameStatus: 'success',
-      numberStatus: 'success',
       tableLoading: false,
       tableData: []
     };
@@ -64,6 +45,7 @@ class MarketView extends React.Component {
         this.setState({ tableData, tableLoading: false });
       });
   }
+
   approveItem(itemId) {
     confirm({
       title: 'Approve this listing?',
@@ -74,7 +56,7 @@ class MarketView extends React.Component {
           db
             .collection('Items')
             .doc(itemId)
-            .update({status:'approved'})
+            .update({ status: 'approved' })
             .then(() => {
               message.success('Item has been approved.');
               this.getPendingItems();
