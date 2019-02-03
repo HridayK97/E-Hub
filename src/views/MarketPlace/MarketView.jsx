@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { Layout, Row, Col, Spin, Menu, Icon, Card, Select } from 'antd';
+import { Layout, Row, Col, Spin, Menu, Icon, Card, Select, Pagination } from 'antd';
 import Responsive from 'react-responsive';
 import { setUserDetails, setSelectedTab, setItems } from '../../reducers/main';
 import firebase from '../../config/config';
@@ -41,16 +41,19 @@ class MarketView extends React.Component {
       categories: [],
       allSelected: true,
       selectedItems: [],
+      selectedItemsPage: [],
       selectedCategory: 'All',
       selectedCategoryItems: [],
-      subcategories: []
+      subcategories: [],
+      currentPageNumber: 1
       // subcategoriesValue: []
     };
-    this.handleChange = this.handleChange.bind(this);
+
     this.onClickItem = this.onClickItem.bind(this);
     this.onSelectCategoryMenu = this.onSelectCategoryMenu.bind(this);
     this.onSelectCategorySelect = this.onSelectCategorySelect.bind(this);
     this.handleSubcategoryChange = this.handleSubcategoryChange.bind(this);
+    this.onChangePage = this.onChangePage.bind(this);
   }
 
   componentDidMount() {
@@ -81,15 +84,14 @@ class MarketView extends React.Component {
             itemsList.push(doc.data());
           });
           this.props.setItems(itemsList);
-          this.setState({ mainLoading: false, selectedItems: itemsList });
+          // Set the page number to 1 after setting the selected items. onChangePage sets the selectedItemsPage list
+          this.setState({ mainLoading: false, selectedItems: itemsList }, () =>
+            this.onChangePage(1, 9)
+          );
         });
     } else {
-      this.setState({ mainLoading: false, selectedItems: items });
+      this.setState({ mainLoading: false, selectedItems: items }, () => this.onChangePage(1, 9));
     }
-  }
-
-  handleChange(value) {
-    // console.log(`selected ${value}`);
   }
 
   onClickItem(itemId) {
@@ -108,7 +110,7 @@ class MarketView extends React.Component {
         allSelected: true,
         // subcategoriesValue: [],
         selectedCategoryItems: []
-      });
+      }, () => this.onChangePage(1, 9));
       // db.collection('Items').get
     } else {
       const selectedItems = items.filter(itemDoc => itemDoc.category === key);
@@ -120,7 +122,7 @@ class MarketView extends React.Component {
         subcategories,
         // subcategoriesValue: [],
         selectedCategoryItems: selectedItems
-      });
+      }, () => this.onChangePage(1, 9));
     }
   }
 
@@ -134,7 +136,7 @@ class MarketView extends React.Component {
         allSelected: true,
         // subcategoriesValue: [],
         selectedCategoryItems: []
-      });
+      }, () => this.onChangePage(1, 9));
       // db.collection('Items').get
     } else {
       const selectedItems = items.filter(itemDoc => itemDoc.category === key);
@@ -146,19 +148,30 @@ class MarketView extends React.Component {
         subcategories,
         // subcategoriesValue: [],
         selectedCategoryItems: selectedItems
-      });
+      }, () => this.onChangePage(1, 9));
     }
   }
 
   handleSubcategoryChange(value) {
     const { selectedCategoryItems } = this.state;
     if (value.length === 0) {
-      this.setState({ selectedItems: selectedCategoryItems });
+      this.setState({ selectedItems: selectedCategoryItems }, () => this.onChangePage(1, 9));
     } else {
       const selectedItems = selectedCategoryItems.filter(item => value.includes(item.subcategory));
       // console.log(selectedItems);
-      this.setState({ selectedItems });
+      this.setState({ selectedItems }, () => this.onChangePage(1, 9));
     }
+  }
+
+  onChangePage(currentPageNumber, itemsPerPage) {
+    const { selectedItems } = this.state;
+    console.log(selectedItems);
+    const start = (currentPageNumber - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    console.log(start, end);
+    const selectedItemsPage = selectedItems.slice(start, end);
+    console.log(selectedItemsPage);
+    this.setState({ currentPageNumber, selectedItemsPage });
   }
 
   defaultContent() {
@@ -211,7 +224,7 @@ class MarketView extends React.Component {
               </Row>
             ) : (
               <Row>
-                {this.state.selectedItems.map(item => (
+                {this.state.selectedItemsPage.map(item => (
                   <Col style={{ padding: '10px 0' }} xs={8}>
                     <a>
                       <Card
@@ -251,6 +264,15 @@ class MarketView extends React.Component {
                 ))}
               </Row>
             )}
+            <Row type="flex" justify="center" align="middle">
+              <Pagination
+                hideOnSinglePage
+                current={this.state.currentPageNumber}
+                onChange={this.onChangePage}
+                defaultPageSize={9}
+                total={this.state.selectedItems.length}
+              />
+            </Row>
           </Content>
         </Layout>
       </React.Fragment>
@@ -300,7 +322,7 @@ class MarketView extends React.Component {
               </Row>
             ) : (
               <Row>
-                {this.state.selectedItems.map(item => (
+                {this.state.selectedItemsPage.map(item => (
                   <Col style={{ padding: '10px 0px' }} xs={24}>
                     <Card
                       onClick={() => this.onClickItem(item.itemId)}
