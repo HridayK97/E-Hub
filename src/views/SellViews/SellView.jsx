@@ -139,8 +139,15 @@ class MarketView extends React.Component {
     const { file, fileList } = data;
     // console.log(file, fileList, event);
     // console.log('length', fileList.length);
-    if (fileList.length === 1) this.setState({ file, uploadDisabled: true });
-    else if (fileList.length === 0) this.setState({ file: undefined, uploadDisabled: false });
+    if (fileList.length === 1) {
+      this.setState({ file, uploadDisabled: true });
+    } else if (fileList.length === 0) {
+      this.setState({ file: undefined, uploadDisabled: false });
+    }
+  }
+
+  beforeUpload() {
+    return false;
   }
 
   clearForm() {
@@ -279,7 +286,7 @@ class MarketView extends React.Component {
     const storageRef = storage.ref(`items/${itemId}/images/mainImage`);
     // console.log(file);
     return storageRef
-      .put(file.originFileObj)
+      .put(file)
       .then(() => storageRef.getDownloadURL())
       .then(url =>
         db
@@ -433,7 +440,13 @@ class MarketView extends React.Component {
                     help={imageStatus !== 'success' ? 'Upload Image' : ''}
                   >
                     {this.state.showUpload && (
-                      <Upload disabled={uploadDisabled} onChange={this.onChangeFile} {...props2}>
+                      <Upload
+                        accept="image/*"
+                        beforeUpload={this.beforeUpload}
+                        disabled={uploadDisabled}
+                        onChange={this.onChangeFile}
+                        {...props2}
+                      >
                         <Button>
                           <Icon type="upload" /> Upload
                         </Button>
