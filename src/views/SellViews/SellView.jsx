@@ -146,10 +146,9 @@ class MarketView extends React.Component {
     //  console.log(file, fileList, event);
     // console.log('length', fileList.length);
     if (fileList.length === 1) {
-      const sourceImage = document.createElement('img');
+      const sourceImage = new Image();
       const resizedCanvas = document.createElement('canvas');
-      resizedCanvas.height = 500;
- 
+      // resizedCanvas.height = 500;
 
       let img;
       const reader = new FileReader();
@@ -158,27 +157,40 @@ class MarketView extends React.Component {
         img = e.target.result;
 
         // console.log(logo);
-        // console.log(img);
+
+        sourceImage.onload = () => {
+          // console.log('IMAGE WIDTH', sourceImage.width); // image is loaded; sizes are available
+          if (sourceImage.height >= 300) {
+            resizedCanvas.width = sourceImage.width * (300 / sourceImage.height);
+            resizedCanvas.height = 300;
+          } else {
+            resizedCanvas.width = sourceImage.width;
+            resizedCanvas.height = sourceImage.height;
+          }
+
+          pica()
+            .resize(sourceImage, resizedCanvas, {
+              unsharpAmount: 80,
+              unsharpRadius: 0.6,
+              unsharpThreshold: 2
+            })
+            .then(result => {
+              console.log('Successfully resize!', result);
+              result.toBlob(blob => {
+                console.log('CONVERTED TO BLOB', blob);
+                this.setState({ file: blob, uploadDisabled: true });
+              });
+            })
+            .catch(err => console.log(err));
+        };
 
         sourceImage.src = img;
         console.log('sourceimage', sourceImage);
-        pica()
-          .resize(sourceImage, resizedCanvas, {
-            unsharpAmount: 80,
-            unsharpRadius: 0.6,
-            unsharpThreshold: 2
-          })
-          .then(result => {
-            console.log('Successfully resize!', result);
-            result.toBlob(blob => {
-              console.log('CONVERTED TO BLOB', blob);
-              this.setState({ file: blob, uploadDisabled: true });
-            });
-          })
-          .catch(err => console.log(err));
+
         // this.setState({image: e.target.result});
       };
       reader.readAsDataURL(file);
+      // this.setState({ file, uploadDisabled: true });
     } else if (fileList.length === 0) {
       this.setState({ file: undefined, uploadDisabled: false });
     }
