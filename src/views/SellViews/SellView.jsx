@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
+import pica from 'pica';
 import {
   Layout,
   Row,
@@ -21,6 +22,7 @@ import {
 } from 'antd';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
 import firebase from '../../config/config';
+import logo from '../../assets/images/logo.png';
 
 const { TextArea } = Input;
 const { Content } = Layout;
@@ -137,10 +139,46 @@ class MarketView extends React.Component {
 
   onChangeFile(data) {
     const { file, fileList } = data;
-    // console.log(file, fileList, event);
+    console.log(file);
+
+    // const img = URL.createObjectURL(file);
+
+    //  console.log(file, fileList, event);
     // console.log('length', fileList.length);
     if (fileList.length === 1) {
-      this.setState({ file, uploadDisabled: true });
+      const sourceImage = document.createElement('img');
+      const resizedCanvas = document.createElement('canvas');
+      resizedCanvas.height = 500;
+ 
+
+      let img;
+      const reader = new FileReader();
+
+      reader.onload = e => {
+        img = e.target.result;
+
+        // console.log(logo);
+        // console.log(img);
+
+        sourceImage.src = img;
+        console.log('sourceimage', sourceImage);
+        pica()
+          .resize(sourceImage, resizedCanvas, {
+            unsharpAmount: 80,
+            unsharpRadius: 0.6,
+            unsharpThreshold: 2
+          })
+          .then(result => {
+            console.log('Successfully resize!', result);
+            result.toBlob(blob => {
+              console.log('CONVERTED TO BLOB', blob);
+              this.setState({ file: blob, uploadDisabled: true });
+            });
+          })
+          .catch(err => console.log(err));
+        // this.setState({image: e.target.result});
+      };
+      reader.readAsDataURL(file);
     } else if (fileList.length === 0) {
       this.setState({ file: undefined, uploadDisabled: false });
     }
