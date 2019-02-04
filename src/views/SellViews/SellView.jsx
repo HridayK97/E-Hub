@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
+import pica from 'pica';
 import {
   Layout,
   Row,
@@ -21,6 +22,7 @@ import {
 } from 'antd';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
 import firebase from '../../config/config';
+import logo from '../../assets/images/logo.png';
 
 const { TextArea } = Input;
 const { Content } = Layout;
@@ -137,10 +139,65 @@ class MarketView extends React.Component {
 
   onChangeFile(data) {
     const { file, fileList } = data;
-    // console.log(file, fileList, event);
+    console.log(file);
+
+    // const img = URL.createObjectURL(file);
+
+    //  console.log(file, fileList, event);
     // console.log('length', fileList.length);
-    if (fileList.length === 1) this.setState({ file, uploadDisabled: true });
-    else if (fileList.length === 0) this.setState({ file: undefined, uploadDisabled: false });
+    if (fileList.length === 1) {
+      const sourceImage = new Image();
+      const resizedCanvas = document.createElement('canvas');
+      // resizedCanvas.height = 500;
+
+      let img;
+      const reader = new FileReader();
+
+      reader.onload = e => {
+        img = e.target.result;
+
+        // console.log(logo);
+
+        sourceImage.onload = () => {
+          // console.log('IMAGE WIDTH', sourceImage.width); // image is loaded; sizes are available
+          if (sourceImage.height >= 300) {
+            resizedCanvas.width = sourceImage.width * (300 / sourceImage.height);
+            resizedCanvas.height = 300;
+          } else {
+            resizedCanvas.width = sourceImage.width;
+            resizedCanvas.height = sourceImage.height;
+          }
+
+          pica()
+            .resize(sourceImage, resizedCanvas, {
+              unsharpAmount: 80,
+              unsharpRadius: 0.6,
+              unsharpThreshold: 2
+            })
+            .then(result => {
+              console.log('Successfully resize!', result);
+              result.toBlob(blob => {
+                console.log('CONVERTED TO BLOB', blob);
+                this.setState({ file: blob, uploadDisabled: true });
+              });
+            })
+            .catch(err => console.log(err));
+        };
+
+        sourceImage.src = img;
+        console.log('sourceimage', sourceImage);
+
+        // this.setState({image: e.target.result});
+      };
+      reader.readAsDataURL(file);
+      // this.setState({ file, uploadDisabled: true });
+    } else if (fileList.length === 0) {
+      this.setState({ file: undefined, uploadDisabled: false });
+    }
+  }
+
+  beforeUpload() {
+    return false;
   }
 
   clearForm() {
@@ -279,7 +336,7 @@ class MarketView extends React.Component {
     const storageRef = storage.ref(`items/${itemId}/images/mainImage`);
     // console.log(file);
     return storageRef
-      .put(file.originFileObj)
+      .put(file)
       .then(() => storageRef.getDownloadURL())
       .then(url =>
         db
@@ -433,7 +490,13 @@ class MarketView extends React.Component {
                     help={imageStatus !== 'success' ? 'Upload Image' : ''}
                   >
                     {this.state.showUpload && (
-                      <Upload disabled={uploadDisabled} onChange={this.onChangeFile} {...props2}>
+                      <Upload
+                        accept="image/*"
+                        beforeUpload={this.beforeUpload}
+                        disabled={uploadDisabled}
+                        onChange={this.onChangeFile}
+                        {...props2}
+                      >
                         <Button>
                           <Icon type="upload" /> Upload
                         </Button>
