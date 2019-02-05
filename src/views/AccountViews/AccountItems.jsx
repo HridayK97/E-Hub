@@ -186,6 +186,9 @@ class AccountItems extends React.Component {
               View
             </a>
             <Divider type="vertical" />
+            <a onClick={() => this.editItem(record)}>Edit</a>
+
+            <Divider type="vertical" />
             <a onClick={() => this.deleteItem(record.itemId)}>Delete</a>
           </span>
         )

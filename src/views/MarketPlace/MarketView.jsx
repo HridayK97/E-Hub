@@ -16,6 +16,7 @@ const { Content, Sider } = Layout;
 const { Meta } = Card;
 const { Option } = Select;
 const categoryIcons = {
+  'Electionic Components': 'laptop',
   'Consumer Electronics': 'laptop',
   Displays: 'desktop',
   Microcontrollers: 'deployment-unit',
@@ -165,7 +166,7 @@ class MarketView extends React.Component {
     return (
       <React.Fragment>
         <Layout style={{ margin: '16px 0', padding: '12px 0', background: '#fff' }}>
-          <Sider width={200} style={{ background: '#fff' }}>
+          <Sider width={225} style={{ background: '#fff' }}>
             <Menu
               onClick={this.onSelectCategoryMenu}
               mode="inline"
