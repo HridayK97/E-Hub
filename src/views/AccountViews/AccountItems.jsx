@@ -37,7 +37,7 @@ class AccountItems extends React.Component {
     db.collection('Items')
       .where('sellerId', '==', uid)
       .where('deleted', '==', false)
-      // .orderBy('createdAt', 'desc')
+      .orderBy('createdAt', 'desc')
       .get()
       .then(snapshot => {
         const tableData = [];

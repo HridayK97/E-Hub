@@ -35,7 +35,7 @@ class MarketView extends React.Component {
     this.setState({ tableLoading: true });
     db.collection('Items')
       .where('status', '==', 'pending')
-      // .orderBy('createdAt', 'desc')
+      .orderBy('createdAt', 'desc')
       .get()
       .then(snapshot => {
         const tableData = [];
