@@ -53,7 +53,7 @@ class EditItem extends React.Component {
       // rentPriceStatus: 'success',
       sellOptionsStatus: 'success',
       imageStatus: 'success',
-      showUpload: true,
+      showUpload: false,
 
       options: [
         {
@@ -93,12 +93,54 @@ class EditItem extends React.Component {
     this.onChangeCheck = this.onChangeCheck.bind(this);
     this.onChangeNumber = this.onChangeNumber.bind(this);
     this.onChangeFile = this.onChangeFile.bind(this);
+    this.imageEditClick = this.imageEditClick.bind(this);
   }
 
   componentDidMount() {
     this.props.setSelectedTab(['3']);
     // this.setState({ mainLoading: true });
     this.formatCategoriesToOptions();
+
+    if (!this.props.location.state) {
+      this.props.history.push('/main/account');
+    } else {
+      const { item } = this.props.location.state;
+      this.fillInExistingData(item);
+    }
+  }
+
+  fillInExistingData(item) {
+    const {
+      itemName,
+      itemDescription,
+      category,
+      subcategory,
+      itemId,
+      rentCheck,
+      rentPrice,
+      sellCheck,
+      sellPrice,
+      imageUrl
+    } = item;
+
+    const categoryArray = [];
+    categoryArray.push(category);
+    if (subcategory) {
+      categoryArray.push(subcategory);
+    }
+
+    this.setState({
+      itemId,
+      itemName,
+      itemDescription,
+      rentCheck,
+      sellCheck,
+      rentPrice,
+      sellPrice,
+      category: categoryArray,
+      imageUrl,
+      showUpload: false
+    });
   }
 
   formatCategoriesToOptions() {
@@ -223,7 +265,7 @@ class EditItem extends React.Component {
       showUpload: false
     });
 
-    this.setState({ showUpload: true }); // forcing the upload component to re-render
+    // this.setState({ showUpload: true }); // forcing the upload component to re-render
   }
 
   validateFields() {
@@ -235,6 +277,7 @@ class EditItem extends React.Component {
       rentCheck,
       sellPrice,
       rentPrice,
+      showUpload,
       file
     } = this.state;
     let valid = true;
@@ -278,7 +321,7 @@ class EditItem extends React.Component {
       } else this.setState({ sellOptionsStatus: 'success', sellOptionsError: '' });
     }
 
-    if (!file) {
+    if (showUpload && !file) {
       valid = false;
       this.setState({ imageStatus: 'error' });
     } else {
@@ -286,6 +329,12 @@ class EditItem extends React.Component {
     }
 
     return valid;
+  }
+
+  imageEditClick() {
+    const { showUpload } = this.state;
+
+    this.setState({ showUpload: !showUpload });
   }
 
   handleSubmit() {
@@ -300,12 +349,14 @@ class EditItem extends React.Component {
         rentCheck,
         sellPrice,
         rentPrice,
-        file
+        file,
+        itemId
       } = this.state;
 
       db.collection('Items')
-        .add({
-          sellerId: uid,
+        .doc(itemId)
+        .update({
+          // sellerId: uid,
           itemName,
           itemDescription,
           sellCheck,
@@ -313,23 +364,29 @@ class EditItem extends React.Component {
           sellPrice,
           rentPrice,
           category: category[0],
-          subcategory: category[1] ? category[1] : '', // In the case of miscellaneous, there is no subcategory
-          createdAt: new Date(),
-          status: 'pending',
-          deleted:false
+          subcategory: category[1] ? category[1] : '' // In the case of miscellaneous, there is no subcategory
+          // createdAt: new Date(),
+          // status: 'pending'
         })
-        .then(doc => {
-          db.collection('Items')
-            .doc(doc.id)
-            .update({ itemId: doc.id })
-            .then(() => {
-              this.uploadImage(doc.id, file).then(() => {
-                this.setState({ submitLoading: false });
-                message.success('Submitted successfully. Your item will be approved soon.');
-                this.clearForm();
-              });
+        .then(() => {
+          if (this.state.showUpload) {
+            this.uploadImage(itemId, file).then(() => {
+              this.setState({ submitLoading: false });
+              message.success('Edited Successfully.');
+              this.clearForm();
+              this.props.history.push('/main/account');
             });
-        });
+          } else {
+            this.setState({ submitLoading: false });
+            message.success('Edited Successfully.');
+            this.clearForm();
+            this.props.history.push('/main/account');
+          }
+        })
+        .catch(err=>{
+          this.setState({ submitLoading: false });
+              message.warning('An error occurred while uploading.');
+        })
     }
   }
 
@@ -490,7 +547,19 @@ class EditItem extends React.Component {
                     validateStatus={imageStatus}
                     help={imageStatus !== 'success' ? 'Upload Image' : ''}
                   >
-                    {this.state.showUpload && (
+                    <Button onClick={this.imageEditClick}>
+                      {this.state.showUpload ? (
+                        <React.Fragment>
+                          <Icon type="left" />
+                          Cancel
+                        </React.Fragment>
+                      ) : (
+                        'Upload New Image'
+                      )}
+                    </Button>
+
+                    <br />
+                    {this.state.showUpload ? (
                       <Upload
                         accept="image/*"
                         beforeUpload={this.beforeUpload}
@@ -502,6 +571,8 @@ class EditItem extends React.Component {
                           <Icon type="upload" /> Upload
                         </Button>
                       </Upload>
+                    ) : (
+                      <img width={100} height={100} src={this.state.imageUrl} />
                     )}
                   </Form.Item>
 

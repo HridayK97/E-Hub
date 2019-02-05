@@ -316,7 +316,7 @@ class MarketView extends React.Component {
           subcategory: category[1] ? category[1] : '', // In the case of miscellaneous, there is no subcategory
           createdAt: new Date(),
           status: 'pending',
-          deleted:false
+          deleted: false
         })
         .then(doc => {
           db.collection('Items')
@@ -329,6 +329,10 @@ class MarketView extends React.Component {
                 this.clearForm();
               });
             });
+        })
+        .catch(err => {
+          this.setState({ submitLoading: false });
+          message.warning('An error occurred while uploading.');
         });
     }
   }

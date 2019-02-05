@@ -44,6 +44,7 @@ class MarketView extends React.Component {
           //  If the item has been rejected or deleted, redirect.
           this.setState({ mainLoading: false });
           this.props.history.push('/main/market');
+          return null;
         } else {
           this.setState(item);
           return db

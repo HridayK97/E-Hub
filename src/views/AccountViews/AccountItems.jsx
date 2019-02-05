@@ -36,7 +36,7 @@ class AccountItems extends React.Component {
     this.setState({ tableLoading: true });
     db.collection('Items')
       .where('sellerId', '==', uid)
-      .where('deleted','==',false)
+      .where('deleted', '==', false)
       // .orderBy('createdAt', 'desc')
       .get()
       .then(snapshot => {
@@ -46,6 +46,10 @@ class AccountItems extends React.Component {
         });
         this.setState({ tableData, tableLoading: false });
       });
+  }
+
+  editItem(itemDoc) {
+    this.props.history.push('/main/account/edit', { item: itemDoc });
   }
 
   deleteItem(itemId) {
@@ -123,7 +127,7 @@ class AccountItems extends React.Component {
               View
             </a>
             <Divider type="vertical" />
-            <a onClick={() => this.edit(record.itemId)}>Edit</a>
+            <a onClick={() => this.editItem(record)}>Edit</a>
             <Divider type="vertical" />
             <a onClick={() => this.deleteItem(record.itemId)}>Delete</a>
           </span>
