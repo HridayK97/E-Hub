@@ -36,6 +36,7 @@ class AccountItems extends React.Component {
     this.setState({ tableLoading: true });
     db.collection('Items')
       .where('sellerId', '==', uid)
+      .where('deleted','==',false)
       // .orderBy('createdAt', 'desc')
       .get()
       .then(snapshot => {
@@ -57,7 +58,7 @@ class AccountItems extends React.Component {
           db
             .collection('Items')
             .doc(itemId)
-            .update({ status: 'deleted' })
+            .update({ deleted: true })
             .then(() => {
               message.success('Item has been successfully deleted.');
               this.getListedItems();

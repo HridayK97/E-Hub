@@ -39,8 +39,8 @@ class MarketView extends React.Component {
       .get()
       .then(doc => {
         const item = doc.data();
-        const { sellerId, status } = doc.data();
-        if (status === 'rejected' || status === 'deleted') {
+        const { sellerId, status, deleted } = doc.data();
+        if (status === 'rejected' || deleted) {
           //  If the item has been rejected or deleted, redirect.
           this.setState({ mainLoading: false });
           this.props.history.push('/main/market');

@@ -315,7 +315,8 @@ class MarketView extends React.Component {
           category: category[0],
           subcategory: category[1] ? category[1] : '', // In the case of miscellaneous, there is no subcategory
           createdAt: new Date(),
-          status: 'pending'
+          status: 'pending',
+          deleted:false
         })
         .then(doc => {
           db.collection('Items')

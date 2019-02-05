@@ -72,6 +72,7 @@ class MarketView extends React.Component {
       const itemsList = [];
       db.collection('Items')
         .where('status', '==', 'approved')
+        .where('deleted', '==', false)
         .get()
         .then(snapshot => {
           snapshot.forEach(doc => {
