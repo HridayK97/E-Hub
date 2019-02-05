@@ -45,6 +45,11 @@ class MainPage extends React.Component {
               this.getConstants();
 
               //  Run code here
+              // db.collection('Items').get().then(snapshot=>{
+              //   snapshot.forEach(doc=>{
+              //     db.collection('Items').doc(doc.id).update({deleted:false})
+              //   })
+              // })
             } else {
               this.setState({ mainLoading: false });
               this.props.history.push('/login');

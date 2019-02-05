@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { Layout, Row, Col, Spin, Breadcrumb, Button } from 'antd';
+import { Layout, Row, Col, Spin, Breadcrumb, Button, Statistic, Card } from 'antd';
 import Responsive from 'react-responsive';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
 import firebase from '../../config/config';
@@ -39,16 +39,23 @@ class MarketView extends React.Component {
       .get()
       .then(doc => {
         const item = doc.data();
-        const { sellerId } = doc.data();
-        this.setState(item);
-        return db
-          .collection('Users')
-          .doc(sellerId)
-          .get()
-          .then(userDoc => {
-            const { name, number } = userDoc.data();
-            this.setState({ sellerName: name, sellerContact: number, mainLoading: false });
-          });
+        const { sellerId, status, deleted } = doc.data();
+        if (status === 'rejected' || deleted) {
+          //  If the item has been rejected or deleted, redirect.
+          this.setState({ mainLoading: false });
+          this.props.history.push('/main/market');
+          return null;
+        } else {
+          this.setState(item);
+          return db
+            .collection('Users')
+            .doc(sellerId)
+            .get()
+            .then(userDoc => {
+              const { name, number } = userDoc.data();
+              this.setState({ sellerName: name, sellerContact: number, mainLoading: false });
+            });
+        }
       })
       .catch(() => {
         this.setState({ mainLoading: false });
@@ -84,39 +91,46 @@ class MarketView extends React.Component {
             <Content style={{ padding: '0 24px', minHeight: 280 }}>
               <h1>{itemName}</h1>
               <Breadcrumb>
+                <Breadcrumb.Item>Category</Breadcrumb.Item>
                 <Breadcrumb.Item>{category}</Breadcrumb.Item>
                 <Breadcrumb.Item>{subcategory}</Breadcrumb.Item>
               </Breadcrumb>
               <Row gutter={24} type="flex" justify="start" align="middle">
                 <Col xs={24} md={8}>
-                  <div style={{ height: 300, width: '100%' }}>
-                    <img
-                      style={{
-                        padding: 5,
-                        height: '100%',
-                        width: '100%',
-                        objectFit: 'contain'
-                      }}
-                      alt="example"
-                      src={imageUrl}
-                    />
-                  </div>
+                  <Card bodyStyle={{padding:0}}>
+                    <div style={{ height: 300, width: '100%' }}>
+                      <img
+                        style={{
+                          padding: 5,
+                          height: '100%',
+                          width: '100%',
+                          objectFit: 'contain'
+                        }}
+                        alt="example"
+                        src={imageUrl}
+                      />
+                    </div>
+                  </Card>
                 </Col>
                 <Col md={16}>
                   <Row type="flex" justify="start" align="middle">
                     {sellCheck ? (
                       <Col style={{ paddingTop: 10 }} xs={24}>
-                        <Button type="primary" size="large">
-                          {`Buy ${sellPrice} Rs`}
-                        </Button>
+                        <Statistic
+                          valueStyle={{ color: '#1890ff' }}
+                          title="Buy Price"
+                          value={` Rs. ${sellPrice}`}
+                        />
                       </Col>
                     ) : null}
 
                     {rentCheck ? (
                       <Col style={{ paddingTop: 10 }} xs={24}>
-                        <Button type="primary" size="large">
-                          {`Rent ${rentPrice} Rs`}
-                        </Button>
+                        <Statistic
+                          valueStyle={{ color: '#1890ff' }}
+                          title="Rent Price"
+                          value={`Rs. ${rentPrice}`}
+                        />
                       </Col>
                     ) : null}
                     <Col style={{ paddingTop: 10 }} xs={24}>
@@ -167,6 +181,7 @@ class MarketView extends React.Component {
             <Content style={{ padding: '0 24px', minHeight: 280 }}>
               <h1>{itemName}</h1>
               <Breadcrumb>
+                <Breadcrumb.Item>Category</Breadcrumb.Item>
                 <Breadcrumb.Item>{category}</Breadcrumb.Item>
                 <Breadcrumb.Item>{subcategory}</Breadcrumb.Item>
               </Breadcrumb>
@@ -188,18 +203,22 @@ class MarketView extends React.Component {
                 <Col sm={24}>
                   <Row type="flex" justify="start" align="middle">
                     {sellCheck ? (
-                      <Col xs={12}>
-                        <Button type="primary" size="large">
-                          {`Buy ${sellPrice} Rs`}
-                        </Button>
+                      <Col xs={24}>
+                        <Statistic
+                          valueStyle={{ color: '#1890ff' }}
+                          title="Buy Price"
+                          value={`Rs. ${sellPrice}`}
+                        />
                       </Col>
                     ) : null}
 
                     {rentCheck ? (
-                      <Col xs={12}>
-                        <Button type="primary" size="large">
-                          {`Rent ${rentPrice} Rs`}
-                        </Button>
+                      <Col xs={24}>
+                        <Statistic
+                          valueStyle={{ color: '#1890ff' }}
+                          title="Rent Price"
+                          value={`Rs. ${rentPrice}`}
+                        />
                       </Col>
                     ) : null}
                     <Col style={{ paddingTop: 10 }} xs={24}>

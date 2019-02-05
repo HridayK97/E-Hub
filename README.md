@@ -1,6 +1,10 @@
 ## Change Log
 
-#1.0
+
+# 1.01
+* Added Edit Item Functionality
+
+# 1.0
 * Initial Release
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

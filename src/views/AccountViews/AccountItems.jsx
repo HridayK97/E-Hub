@@ -36,7 +36,8 @@ class AccountItems extends React.Component {
     this.setState({ tableLoading: true });
     db.collection('Items')
       .where('sellerId', '==', uid)
-      // .orderBy('createdAt', 'desc')
+      .where('deleted', '==', false)
+      .orderBy('createdAt', 'desc')
       .get()
       .then(snapshot => {
         const tableData = [];
@@ -45,6 +46,10 @@ class AccountItems extends React.Component {
         });
         this.setState({ tableData, tableLoading: false });
       });
+  }
+
+  editItem(itemDoc) {
+    this.props.history.push('/main/account/edit', { item: itemDoc });
   }
 
   deleteItem(itemId) {
@@ -57,7 +62,7 @@ class AccountItems extends React.Component {
           db
             .collection('Items')
             .doc(itemId)
-            .delete()
+            .update({ deleted: true })
             .then(() => {
               message.success('Item has been successfully deleted.');
               this.getListedItems();
@@ -121,6 +126,8 @@ class AccountItems extends React.Component {
             >
               View
             </a>
+            <Divider type="vertical" />
+            <a onClick={() => this.editItem(record)}>Edit</a>
             <Divider type="vertical" />
             <a onClick={() => this.deleteItem(record.itemId)}>Delete</a>
           </span>
