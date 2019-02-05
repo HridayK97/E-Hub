@@ -364,29 +364,29 @@ class EditItem extends React.Component {
           sellPrice,
           rentPrice,
           category: category[0],
-          subcategory: category[1] ? category[1] : '' // In the case of miscellaneous, there is no subcategory
+          subcategory: category[1] ? category[1] : '', // In the case of miscellaneous, there is no subcategory
           // createdAt: new Date(),
-          // status: 'pending'
+          status: 'pending'
         })
         .then(() => {
           if (this.state.showUpload) {
             this.uploadImage(itemId, file).then(() => {
               this.setState({ submitLoading: false });
-              message.success('Edited Successfully.');
+              message.success('Edited Successfully. Your item will be approved soon.');
               this.clearForm();
               this.props.history.push('/main/account');
             });
           } else {
             this.setState({ submitLoading: false });
-            message.success('Edited Successfully.');
+            message.success('Edited Successfully. Your item will be approved soon.');
             this.clearForm();
             this.props.history.push('/main/account');
           }
         })
-        .catch(err=>{
+        .catch(err => {
           this.setState({ submitLoading: false });
-              message.warning('An error occurred while uploading.');
-        })
+          message.warning('An error occurred while uploading.');
+        });
     }
   }
 
