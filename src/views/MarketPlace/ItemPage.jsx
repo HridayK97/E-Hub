@@ -39,16 +39,22 @@ class MarketView extends React.Component {
       .get()
       .then(doc => {
         const item = doc.data();
-        const { sellerId } = doc.data();
-        this.setState(item);
-        return db
-          .collection('Users')
-          .doc(sellerId)
-          .get()
-          .then(userDoc => {
-            const { name, number } = userDoc.data();
-            this.setState({ sellerName: name, sellerContact: number, mainLoading: false });
-          });
+        const { sellerId, status } = doc.data();
+        if (status === 'rejected' || status === 'deleted') {
+          //  If the item has been rejected or deleted, redirect.
+          this.setState({ mainLoading: false });
+          this.props.history.push('/main/market');
+        } else {
+          this.setState(item);
+          return db
+            .collection('Users')
+            .doc(sellerId)
+            .get()
+            .then(userDoc => {
+              const { name, number } = userDoc.data();
+              this.setState({ sellerName: name, sellerContact: number, mainLoading: false });
+            });
+        }
       })
       .catch(() => {
         this.setState({ mainLoading: false });

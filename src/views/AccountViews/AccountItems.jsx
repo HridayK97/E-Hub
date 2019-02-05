@@ -57,7 +57,7 @@ class AccountItems extends React.Component {
           db
             .collection('Items')
             .doc(itemId)
-            .delete()
+            .update({ status: 'deleted' })
             .then(() => {
               message.success('Item has been successfully deleted.');
               this.getListedItems();
@@ -121,6 +121,8 @@ class AccountItems extends React.Component {
             >
               View
             </a>
+            <Divider type="vertical" />
+            <a onClick={() => this.edit(record.itemId)}>Edit</a>
             <Divider type="vertical" />
             <a onClick={() => this.deleteItem(record.itemId)}>Delete</a>
           </span>
