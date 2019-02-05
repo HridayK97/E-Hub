@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { Layout, Row, Col, Spin, Breadcrumb, Button, Statistic, Card } from 'antd';
+import { Layout, Row, Col, Spin, Breadcrumb, Statistic, Card } from 'antd';
 import Responsive from 'react-responsive';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
 import firebase from '../../config/config';
@@ -87,7 +87,7 @@ class MarketView extends React.Component {
             </Row>
           </Layout>
         ) : (
-          <Layout style={{ padding: '24px 0', background: '#fff' }}>
+          <Layout style={{ margin: '16px 0', padding: '24px 0', background: '#fff' }}>
             <Content style={{ padding: '0 24px', minHeight: 280 }}>
               <h1>{itemName}</h1>
               <Breadcrumb>
@@ -95,9 +95,14 @@ class MarketView extends React.Component {
                 <Breadcrumb.Item>{category}</Breadcrumb.Item>
                 <Breadcrumb.Item>{subcategory}</Breadcrumb.Item>
               </Breadcrumb>
-              <Row gutter={24} type="flex" justify="start" align="middle">
+              <Row
+                gutter={24}
+                type="flex"
+                justify="start"
+                align="middle"
+              >
                 <Col xs={24} md={8}>
-                  <Card bodyStyle={{padding:0}}>
+                  <Card bodyStyle={{ padding: 0 }}>
                     <div style={{ height: 300, width: '100%' }}>
                       <img
                         style={{

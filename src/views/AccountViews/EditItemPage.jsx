@@ -181,7 +181,7 @@ class EditItem extends React.Component {
 
   onChangeFile(data) {
     const { file, fileList } = data;
-    console.log(file);
+    // console.log(file);
 
     // const img = URL.createObjectURL(file);
 
@@ -217,9 +217,9 @@ class EditItem extends React.Component {
               unsharpThreshold: 2
             })
             .then(result => {
-              console.log('Successfully resize!', result);
+              // console.log('Successfully resize!', result);
               result.toBlob(blob => {
-                console.log('CONVERTED TO BLOB', blob);
+                // console.log('CONVERTED TO BLOB', blob);
                 this.setState({ file: blob, uploadDisabled: true });
               });
             })
@@ -227,7 +227,7 @@ class EditItem extends React.Component {
         };
 
         sourceImage.src = img;
-        console.log('sourceimage', sourceImage);
+        // console.log('sourceimage', sourceImage);
 
         // this.setState({image: e.target.result});
       };
