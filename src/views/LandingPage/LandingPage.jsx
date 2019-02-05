@@ -125,7 +125,7 @@ class MarketView extends React.Component {
                   <p style={{ fontSize: '18px', textAlign: 'left' }}>
                     1. <b>Meet</b> people with similar project interests to work together,
                     <br />
-                    2. <b>Learn</b> those who have already carried out those projects.
+                    2. <b>Learn</b> from those who have already carried out those projects.
                   </p>
                 </Col>
               </Mobile>
@@ -202,7 +202,7 @@ class MarketView extends React.Component {
                           <p style={{ fontSize: '18px', textAlign: 'left' }}>
                             1. <b>Meet</b> people with similar project interests to work together,
                             <br />
-                            2. <b>Learn</b> those who have already carried out those projects.
+                            2. <b>Learn</b> from those who have already carried out those projects.
                           </p>
                         </Col>
                       </Button>
