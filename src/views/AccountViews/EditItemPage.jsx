@@ -22,7 +22,7 @@ import {
 } from 'antd';
 import { setUserDetails, setSelectedTab } from '../../reducers/main';
 import firebase from '../../config/config';
-import logo from '../../assets/images/logo.png';
+// import logo from '../../assets/images/logo.png';
 
 const { TextArea } = Input;
 const { Content } = Layout;
