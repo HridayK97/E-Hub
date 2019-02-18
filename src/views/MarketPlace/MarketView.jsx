@@ -185,6 +185,8 @@ class MarketView extends React.Component {
     const selectedItemsPage = selectedItems.slice(start, end);
     // console.log(selectedItemsPage);
     this.setState({ currentPageNumber, selectedItemsPage });
+    window.scrollTo(0, 0);
+    //  Scroll to Top
   }
 
   defaultContent() {
