@@ -53,7 +53,7 @@ class LoginForm extends React.Component {
       const { name, number } = this.state;
       db.collection('Users')
         .doc(uid)
-        .set({ uid, name, number, email })
+        .set({ uid, name, number, email, createdAt: new Date() })
         .then(() => {
           // console.log('SUCCESS ADDED');
           this.props.history.push('/main');
