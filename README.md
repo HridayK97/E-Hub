@@ -1,5 +1,7 @@
 ## Change Log
 
+# 1.02
+* Added Pagination
 
 # 1.01
 * Added Edit Item Functionality
