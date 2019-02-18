@@ -146,7 +146,11 @@ class AccountItems extends React.Component {
             ) : (
               <Row type="flex" justify="start" align="middle">
                 <Col xs={18}>
-                  <Table columns={columns} dataSource={this.state.tableData} />
+                  <Table
+                    columns={columns}
+                    dataSource={this.state.tableData}
+                    locale={{ filterConfirm: 'Ok', filterReset: 'Reset', emptyText: 'No Items' }}
+                  />
                 </Col>
               </Row>
             )}
@@ -207,7 +211,12 @@ class AccountItems extends React.Component {
             ) : (
               <Row type="flex" justify="start" align="middle">
                 <Col xs={24}>
-                  <Table size="middle" columns={columns} dataSource={this.state.tableData} />
+                  <Table
+                    size="middle"
+                    columns={columns}
+                    dataSource={this.state.tableData}
+                    locale={{ filterConfirm: 'Ok', filterReset: 'Reset', emptyText: 'No Items' }}
+                  />
                 </Col>
               </Row>
             )}
