@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import { Layout, Row, Col, Spin, Menu, Icon, Card, Select, Pagination } from 'antd';
 import Responsive from 'react-responsive';
 import { setUserDetails, setSelectedTab, setItems } from '../../reducers/main';
+import MarketImage from './MarketImage';
 import firebase from '../../config/config';
 
 const Mobile = props => <Responsive {...props} maxWidth={767} />;
@@ -104,25 +105,31 @@ class MarketView extends React.Component {
     const { items, categories } = this.props;
 
     if (key === 'All') {
-      this.setState({
-        selectedCategory: key,
-        selectedItems: items,
-        allSelected: true,
-        // subcategoriesValue: [],
-        selectedCategoryItems: []
-      }, () => this.onChangePage(1, 9));
+      this.setState(
+        {
+          selectedCategory: key,
+          selectedItems: items,
+          allSelected: true,
+          // subcategoriesValue: [],
+          selectedCategoryItems: []
+        },
+        () => this.onChangePage(1, 9)
+      );
       // db.collection('Items').get
     } else {
       const selectedItems = items.filter(itemDoc => itemDoc.category === key);
       const subcategories = categories[key];
-      this.setState({
-        selectedCategory: key,
-        selectedItems,
-        allSelected: false,
-        subcategories,
-        // subcategoriesValue: [],
-        selectedCategoryItems: selectedItems
-      }, () => this.onChangePage(1, 9));
+      this.setState(
+        {
+          selectedCategory: key,
+          selectedItems,
+          allSelected: false,
+          subcategories,
+          // subcategoriesValue: [],
+          selectedCategoryItems: selectedItems
+        },
+        () => this.onChangePage(1, 9)
+      );
     }
   }
 
@@ -130,25 +137,31 @@ class MarketView extends React.Component {
     const { items, categories } = this.props;
 
     if (key === 'All') {
-      this.setState({
-        selectedCategory: key,
-        selectedItems: items,
-        allSelected: true,
-        // subcategoriesValue: [],
-        selectedCategoryItems: []
-      }, () => this.onChangePage(1, 9));
+      this.setState(
+        {
+          selectedCategory: key,
+          selectedItems: items,
+          allSelected: true,
+          // subcategoriesValue: [],
+          selectedCategoryItems: []
+        },
+        () => this.onChangePage(1, 9)
+      );
       // db.collection('Items').get
     } else {
       const selectedItems = items.filter(itemDoc => itemDoc.category === key);
       const subcategories = categories[key];
-      this.setState({
-        selectedCategory: key,
-        selectedItems,
-        allSelected: false,
-        subcategories,
-        // subcategoriesValue: [],
-        selectedCategoryItems: selectedItems
-      }, () => this.onChangePage(1, 9));
+      this.setState(
+        {
+          selectedCategory: key,
+          selectedItems,
+          allSelected: false,
+          subcategories,
+          // subcategoriesValue: [],
+          selectedCategoryItems: selectedItems
+        },
+        () => this.onChangePage(1, 9)
+      );
     }
   }
 
@@ -232,16 +245,9 @@ class MarketView extends React.Component {
                         style={{ width: 300 }}
                         cover={
                           <div style={{ height: 150, width: 300 }}>
-                            <img
-                              style={{
-                                padding: 5,
-                                height: '100%',
-                                width: '100%',
-                                objectFit: 'contain'
-                              }}
-                              alt="example"
-                              src={item.imageUrl}
-                            />
+
+                          <MarketImage imageUrl={item.imageUrl} />
+                            
                           </div>
                         }
                       >
