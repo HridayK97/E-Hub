@@ -230,7 +230,7 @@ class MainPage extends React.Component {
             </Menu.Item>
           </Menu>
         </Header>
-        <Content style={{ padding: '0 5px' }}>
+        <Content style={{ padding: '0 0px' }}>
           <Switch>
             {mainRoutes.map((route, key) => {
               if (route.redirect) return <Redirect from={route.path} to={route.pathTo} key={key} />;

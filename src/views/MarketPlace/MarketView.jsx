@@ -178,12 +178,12 @@ class MarketView extends React.Component {
 
   onChangePage(currentPageNumber, itemsPerPage) {
     const { selectedItems } = this.state;
-    console.log(selectedItems);
+    // console.log(selectedItems);
     const start = (currentPageNumber - 1) * itemsPerPage;
     const end = start + itemsPerPage;
-    console.log(start, end);
+    // console.log(start, end);
     const selectedItemsPage = selectedItems.slice(start, end);
-    console.log(selectedItemsPage);
+    // console.log(selectedItemsPage);
     this.setState({ currentPageNumber, selectedItemsPage });
   }
 
@@ -245,9 +245,7 @@ class MarketView extends React.Component {
                         style={{ width: 300 }}
                         cover={
                           <div style={{ height: 150, width: 300 }}>
-
-                          <MarketImage imageUrl={item.imageUrl} />
-                            
+                            <MarketImage imageUrl={item.imageUrl} />
                           </div>
                         }
                       >
@@ -289,7 +287,7 @@ class MarketView extends React.Component {
     return (
       <React.Fragment>
         <Layout style={{ padding: '0 0', background: '#fff' }}>
-          <Row style={{ padding: '10px 0' }}>
+          <Row style={{ padding: '10px 10px' }}>
             <Select
               style={{ width: '100%' }}
               placeholder="Select Category"
@@ -304,7 +302,7 @@ class MarketView extends React.Component {
             </Select>
           </Row>
           <Content style={{ padding: '10 10px', minHeight: '100vh' }}>
-            <Row style={{ padding: '10px 0px' }}>
+            <Row style={{ padding: '10px 5px' }}>
               <h2>{this.state.selectedCategory}</h2>
               {this.state.allSelected ? null : (
                 <Col xs={24} md={8}>
@@ -327,7 +325,7 @@ class MarketView extends React.Component {
                 <Spin size="medium" />
               </Row>
             ) : (
-              <Row>
+              <Row style={{ padding: '5px' }}>
                 {this.state.selectedItemsPage.map(item => (
                   <Col style={{ padding: '10px 0px' }} xs={24}>
                     <Card
@@ -335,16 +333,7 @@ class MarketView extends React.Component {
                       style={{ width: '100%' }}
                       cover={
                         <div style={{ height: 150, width: '100%' }}>
-                          <img
-                            style={{
-                              padding: 5,
-                              height: '100%',
-                              width: '100%',
-                              objectFit: 'contain'
-                            }}
-                            alt="example"
-                            src={item.imageUrl}
-                          />
+                          <MarketImage imageUrl={item.imageUrl} />
                         </div>
                       }
                     >
@@ -366,6 +355,15 @@ class MarketView extends React.Component {
                 ))}
               </Row>
             )}
+            <Row style={{ padding: '10px 0px' }} type="flex" justify="center" align="middle">
+              <Pagination
+                hideOnSinglePage
+                current={this.state.currentPageNumber}
+                onChange={this.onChangePage}
+                defaultPageSize={9}
+                total={this.state.selectedItems.length}
+              />
+            </Row>
           </Content>
         </Layout>
       </React.Fragment>

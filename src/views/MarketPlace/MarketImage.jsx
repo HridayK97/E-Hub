@@ -2,7 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 class MarketImage extends React.Component {
   constructor(props) {
     super(props);
@@ -58,6 +57,5 @@ MarketImage.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   classes: PropTypes.object.isRequired
 };
-
 
 export default MarketImage;
